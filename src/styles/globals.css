@@ -1,0 +1,95 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+
+/* Custom Fonts */
+@font-face {
+    font-family: 'ChewieDEMO';
+    src: url('../assets/fonts/ChewieDEMO-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ChewieDEMO';
+    src: url('../assets/fonts/ChewieDEMO-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ChewieDEMO';
+    src: url('../assets/fonts/ChewieDEMO-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ChewieDEMO';
+    src: url('../assets/fonts/ChewieDEMO-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MagicalSnow';
+    src: url('../assets/fonts/MagicalSnow.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SnowDoodle';
+    src: url('../assets/fonts/SnowDoodle.otf') format('opentype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ViuCobacoba';
+    src: url('../assets/fonts/ViuCobacoba-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+/* Custom Components */
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-button_pink text-white rounded-full 
+           hover:bg-white hover:text-button_pink border border-transparent
+           hover:border-button_pink transition-all duration-300;
+  }
+
+  .nav-link {
+    @apply text-dark_pink_secondary hover:text-peach transition-colors duration-300;
+  }
+
+  .name_style {
+    font-family: 'SnowDoodle', sans-serif;
+    color: #F9E1E1;
+    font-size: var(--font-size, 2rem);
+    -webkit-text-stroke: calc(var(--font-size, 2rem) / 5) transparent;
+    text-shadow: 
+      calc(var(--font-size, 2rem) / 10) calc(var(--font-size, 2rem) / 10) 0 #FF91A1,
+      calc(var(--font-size, 2rem) / -10) calc(var(--font-size, 2rem) / 10) 0 #FF91A1,
+      calc(var(--font-size, 2rem) / 10) calc(var(--font-size, 2rem) / -10) 0 #FF91A1,
+      calc(var(--font-size, 2rem) / -10) calc(var(--font-size, 2rem) / -10) 0 #FF91A1;
+  }
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  
+  body {
+    @apply font-poppins text-dark_pink_secondary bg-white;
+  }
+}

@@ -1,0 +1,40 @@
+{
+    "posts": [
+        {
+            "id": "post1",
+            "image": "/images/instagram1.png",
+            "link": "https://www.instagram.com/p/DC_4kumxyF4/",
+            "type": "video"
+        },
+        {
+            "id": "post2",
+            "image": "/images/instagram2.png",
+            "link": "https://www.instagram.com/p/C4KBpKhuI3d/",
+            "type": "video"
+        },
+        {
+            "id": "post3",
+            "image": "/images/instagram3.png",
+            "link": "https://www.instagram.com/p/C3b0s30ug-m/?img_index=1",
+            "type": "image"
+        },
+        {
+            "id": "post4",
+            "image": "/images/instagram4.png",
+            "link": "https://www.instagram.com/p/C3EMDccMZTI/?img_index=1",
+            "type": "image"
+        },
+        {
+            "id": "post5",
+            "image": "/images/instagram5.png",
+            "link": "https://www.instagram.com/p/C2VoobfOz2Y/",
+            "type": "video"
+        },
+        {
+            "id": "post6",
+            "image": "/images/instagram6.png",
+            "link": "https://www.instagram.com/p/C0m_dL9uapH/",
+            "type": "video"
+        }
+    ]
+}
