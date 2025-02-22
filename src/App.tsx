@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import ProductsPage from './pages/ProductsPage';
-import ProductDetailPage from './pages/ProductDetailsPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import CartPage from './pages/CartPage';
-import FAQsPage from './pages/FAQsPage';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
+import HomePage from './pages/index';
+import ProductsPage from './pages/products';
+import ProductDetailPage from './pages/product/[id]';
+import AboutPage from './pages/about';
+import ContactPage from './pages/contact';
+import CartPage from './pages/cart';
+import FAQsPage from './pages/faqs';
+import OrderConfirmationPage from './pages/order-confirmation';
 import { CartProvider } from './context/CartContext';
 import CartSidebar from './components/Cart/CartSideBar';
 
