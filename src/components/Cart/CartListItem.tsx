@@ -1,49 +1,50 @@
+'use client';
+
 import { FC } from 'react';
+import Image from 'next/image';
 import { FiMinus, FiPlus, FiX } from 'react-icons/fi';
-import { useCart } from '../../context/CartContext';
-import { CartItem } from '../../types/cart';
+import { useCart } from '@/context/CartContext';
+import type { CartItem, Styles } from '@/types/cart';
 
 interface CartListItemProps {
     item: CartItem;
     onUpdateQuantity: (id: string, quantity: number) => void;
-    styles: {
-        nameStyle: string;
-        priceStyle: string;
-        subtotalStyle: string;
-        quantityStyle: string;
-    };
+    styles: Styles; 
 }
 
 const CartListItem: FC<CartListItemProps> = ({ item, onUpdateQuantity, styles }) => {
     const { removeFromCart } = useCart();
 
     const calculateSubtotal = (): string => {
-        const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+        const price = parseFloat(item.price.replace('$', ''));
         return (price * item.quantity).toFixed(2);
     };
 
     return (
-        <div className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-6 py-6 items-center">
-            <div className="flex gap-4">
-                <img 
-                    src={item.thumbnail} 
-                    alt={item.name}
-                    className="w-20 h-20 object-cover rounded-md" 
-                />
-                <div className="flex flex-col justify-center">
-                    <h3 className={styles.nameStyle}>{item.name}</h3>
-                    {item.selectedStyle && (
-                        <span className="text-xs text-dark_pink_secondary mt-1">
-                            Style: {item.selectedStyle}
-                        </span>
-                    )}
+        <div className="grid grid-cols-[2fr,1fr,1fr,1fr,auto] gap-6 items-center py-6">
+            {/* Product Info */}
+            <div className="flex items-center gap-4 md:gap-10">
+                <div className="w-24 h-24 flex-shrink-0 relative">
+                    <Image 
+                        src={item.thumbnail}
+                        alt={item.name}
+                        fill
+                        sizes="(max-width: 768px) 96px, 96px"
+                        className="object-cover rounded-md"
+                        priority={false}
+                    />
                 </div>
+                <h3 className={`${styles.nameStyle} text-md truncate`}>
+                    {item.name}
+                </h3>
             </div>
 
+            {/* Price */}
             <span className={`${styles.priceStyle} text-center text-sm`}>
                 {item.price}
             </span>
 
+            {/* Quantity Selector */}
             <div className="flex items-center justify-center">
                 <div className="flex items-center gap-3 border border-button_pink rounded-sm px-3 py-1.5">
                     <button
@@ -65,17 +66,18 @@ const CartListItem: FC<CartListItemProps> = ({ item, onUpdateQuantity, styles })
                 </div>
             </div>
 
-            <div className="flex items-center justify-end gap-4">
-                <span className={`${styles.subtotalStyle} text-right text-sm`}>
-                    ${calculateSubtotal()}
-                </span>
-                <button 
-                    onClick={() => removeFromCart(item.id)}
-                    className="text-pink hover:opacity-75"
-                >
-                    <FiX className="w-4 h-4" />
-                </button>
-            </div>
+            {/* Subtotal */}
+            <span className={`${styles.subtotalStyle} text-right text-sm`}>
+                ${calculateSubtotal()}
+            </span>
+
+            {/* Remove Button */}
+            <button 
+                onClick={() => removeFromCart(item.id)}
+                className="text-pink hover:opacity-75 justify-self-end"
+            >
+                <FiX className="w-4 h-4" />
+            </button>
         </div>
     );
 };

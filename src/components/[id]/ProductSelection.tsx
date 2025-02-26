@@ -1,8 +1,10 @@
+'use client';
+
 import { FC, useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
-import { Product } from '../../types/product';
+import { useCart } from '@/context/CartContext';
+import type { Product } from '@/types/product';
 
 interface ProductSelectionProps {
     id: string;
@@ -49,11 +51,21 @@ const ProductSelection: FC<ProductSelectionProps> = ({
         <div className="flex flex-col gap-4 md:gap-8">
             {/* Desktop Breadcrumb */}
             <nav className="hidden md:block text-sm font-poppins font-light text-dark_pink">
-                <Link to="/" className="hover:underline text-[#AF001A]">Home</Link>
+                <Link 
+                    href="/" 
+                    className="hover:underline text-[#AF001A]"
+                >
+                    Home
+                </Link>
                 <span className="text-[#AF001A] mx-3">&gt;</span>
                 {fromProducts && (
                     <>
-                        <Link to="/products" className="hover:underline text-[#AF001A]">Products</Link>
+                        <Link 
+                            href="/products" 
+                            className="hover:underline text-[#AF001A]"
+                        >
+                            Products
+                        </Link>
                         <span className="text-[#AF001A] mx-3">&gt;</span>
                     </>
                 )}
@@ -79,10 +91,13 @@ const ProductSelection: FC<ProductSelectionProps> = ({
                     <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                         className="text-dark_pink font-poppins"
+                        disabled={quantity <= 1}
                     >
                         -
                     </button>
-                    <span className="text-dark_pink font-poppins min-w-[20px] text-center">{quantity}</span>
+                    <span className="text-dark_pink font-poppins min-w-[20px] text-center">
+                        {quantity}
+                    </span>
                     <button
                         onClick={() => setQuantity(quantity + 1)}
                         className="text-dark_pink font-poppins"
@@ -102,7 +117,8 @@ const ProductSelection: FC<ProductSelectionProps> = ({
                         <button
                             key={index}
                             onClick={() => setSelectedVariant(index)}
-                            className={`inline-flex px-4 py-2.5 rounded-full text-xs font-poppins uppercase transition-all whitespace-nowrap font-medium
+                            className={`inline-flex px-4 py-2.5 rounded-full text-xs font-poppins 
+                                uppercase transition-all whitespace-nowrap font-medium
                                 ${selectedVariant === index 
                                     ? 'bg-dark_pink text-white border border-dark_pink' 
                                     : 'bg-transparent text-button-pink border border-dark_pink hover:bg-dark_pink hover:text-white'}`}
@@ -113,12 +129,12 @@ const ProductSelection: FC<ProductSelectionProps> = ({
                 </div>
             </div>
 
-            {/* Add to Cart Button - Full width on mobile */}
+            {/* Add to Cart Button */}
             <motion.button
                 onClick={handleAddToCart}
-                className="w-full sm:w-[80%] mx-auto sm:mx-0 py-3 bg-peach text-white rounded-md font-poppins font-semibold
-                    hover:bg-white hover:text-peach border border-transparent
-                    hover:border-peach transition-all duration-300"
+                className="w-full sm:w-[80%] mx-auto sm:mx-0 py-3 bg-peach text-white rounded-md 
+                    font-poppins font-semibold hover:bg-white hover:text-peach border 
+                    border-transparent hover:border-peach transition-all duration-300"
                 whileTap={{ scale: 0.95 }}
             >
                 ADD TO CART

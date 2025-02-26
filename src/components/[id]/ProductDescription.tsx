@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useState, useRef, useEffect } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,13 +28,14 @@ const ProductDescription: FC<ProductDescriptionProps> = ({ description }) => {
             <div className="relative"> 
                 <div
                     ref={textRef}
-                    className={`whitespace-pre-line font-poppins font-medium text-button_pink`}
+                    className="whitespace-pre-line font-poppins font-medium text-button_pink"
                     style={{
                         lineHeight: `${lineHeight}rem`,
                         height: isExpanded ? 'auto' : '10.5rem',
                         overflow: 'hidden',
                         transition: 'height 0.3s ease-in-out'
                     }}
+                    role="article"
                 >
                     {description}
                     <AnimatePresence>

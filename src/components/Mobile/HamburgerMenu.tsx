@@ -1,22 +1,69 @@
+'use client';
+
 import { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { FiMenu, FiX, FiUser, FiInstagram, FiPlus, FiMinus } from 'react-icons/fi';
 import { SiTiktok } from 'react-icons/si';
-import CurrencySelector from '../Header/CurrencySelector';
+import CurrencySelector from '@/components/Header/CurrencySelector';
+import etsyIcon from '@/assets/images/etsy.svg';
+
+interface SocialLink {
+    name: string;
+    url: string;
+    icon: React.ReactNode;
+}
+
+const SHOP_CATEGORIES = [
+    { name: "Shop All", path: "/products" },
+    { name: "Bracelets", path: "/products/bracelets" },
+    { name: "Keychains", path: "/products/keychains" },
+    { name: "Rings", path: "/products/rings" },
+    { name: "Necklaces", path: "/products/necklaces" },
+    { name: "Stickers", path: "/products/stickers" }
+];
+
+const NAV_ROUTES = ["about", "faqs", "contact"];
 
 const HamburgerMenu: FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isShopOpen, setIsShopOpen] = useState<boolean>(false);
+    const pathname = usePathname();
 
     const toggleMenu = (): void => setIsOpen(!isOpen);
     const toggleShop = (): void => setIsShopOpen(!isShopOpen);
+
+    const socialLinks: SocialLink[] = [
+        {
+            name: 'Instagram',
+            url: 'https://www.instagram.com/fifeefofum',
+            icon: <FiInstagram className="h-5 w-5" />
+        },
+        {
+            name: 'TikTok',
+            url: 'https://www.tiktok.com/@fifeefofum',
+            icon: <SiTiktok className="h-5 w-5" />
+        },
+        {
+            name: 'Etsy',
+            url: 'https://www.etsy.com/shop/fifeefofum',
+            icon: <Image 
+                src={etsyIcon} 
+                alt="Etsy" 
+                width={20}
+                height={20}
+                className="h-5 w-5"
+                priority={false}
+            />
+        }
+    ];
 
     return (
         <div className="relative md:hidden">
             <button
                 onClick={toggleMenu}
                 className="text-dark_pink_secondary p-2"
-                aria-label="Menu"
             >
                 {isOpen ? (
                     <FiX className="h-6 w-6" />
@@ -36,8 +83,10 @@ const HamburgerMenu: FC = () => {
                     <ul className="space-y-4 font-poppins text-dark_pink_secondary">
                         <li>
                             <Link 
-                                to="/" 
-                                className="block py-2 hover:text-peach transition duration-300"
+                                href="/"
+                                className={`block py-2 hover:text-peach transition duration-300 ${
+                                    pathname === '/' ? 'text-peach' : ''
+                                }`}
                                 onClick={toggleMenu}
                             >
                                 Home
@@ -61,14 +110,16 @@ const HamburgerMenu: FC = () => {
                             {/* Shop Submenu */}
                             {isShopOpen && (
                                 <ul className="pl-4 mt-2 space-y-2">
-                                    {["Shop All", "Bracelets", "Keychains", "Rings", "Necklaces", "Stickers"].map((category) => (
-                                        <li key={category} className="bg-[#FFF7F7] rounded-md">
+                                    {SHOP_CATEGORIES.map((category) => (
+                                        <li key={category.name} className="bg-[#FFF7F7] rounded-md">
                                             <Link
-                                                to={category === "Shop All" ? "/products" : "#"}
-                                                className="block px-4 py-2 text-dark_pink_secondary hover:text-peach transition duration-300"
+                                                href={category.path}
+                                                className={`block px-4 py-2 text-dark_pink_secondary hover:text-peach transition duration-300 ${
+                                                    pathname === category.path ? 'text-peach' : ''
+                                                }`}
                                                 onClick={toggleMenu}
                                             >
-                                                {category}
+                                                {category.name}
                                             </Link>
                                         </li>
                                     ))}
@@ -76,11 +127,13 @@ const HamburgerMenu: FC = () => {
                             )}
                         </li>
 
-                        {["about", "faqs", "contact"].map((route) => (
+                        {NAV_ROUTES.map((route) => (
                             <li key={route}>
                                 <Link 
-                                    to={`/${route}`}
-                                    className="block py-2 hover:text-peach transition duration-300"
+                                    href={`/${route}`}
+                                    className={`block py-2 hover:text-peach transition duration-300 ${
+                                        pathname === `/${route}` ? 'text-peach' : ''
+                                    }`}
                                     onClick={toggleMenu}
                                 >
                                     {route.charAt(0).toUpperCase() + route.slice(1)}
@@ -130,28 +183,5 @@ const HamburgerMenu: FC = () => {
         </div>
     );
 };
-
-const socialLinks = [
-    {
-        name: 'Instagram',
-        url: 'https://www.instagram.com/fifeefofum',
-        icon: <FiInstagram className="h-5 w-5" />
-    },
-    {
-        name: 'TikTok',
-        url: 'https://www.tiktok.com/@fifeefofum',
-        icon: <SiTiktok className="h-5 w-5" />
-    },
-    {
-        name: 'Etsy',
-        url: 'https://www.etsy.com/shop/fifeefofum',
-        icon: <img 
-            src={'../../assets/images/etsy.svg'} 
-            alt="Etsy" 
-            className="h-9 w-9 pb-3" 
-            style={{ filter: 'invert(37%) sepia(74%) saturate(1096%) hue-rotate(308deg) brightness(91%) contrast(89%)' }}
-        />
-    }
-];
 
 export default HamburgerMenu;

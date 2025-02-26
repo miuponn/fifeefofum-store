@@ -1,7 +1,9 @@
+'use client';
+
 import { FC } from 'react';
 import { FiStar } from 'react-icons/fi';
-import reviewsData from '../../../data/reviews';
-import { Review } from '../../../types/review';
+import reviewsData from '@/data/reviews';
+import type { Review } from '@/types/review';
 
 interface StarRatingProps {
     productId: string;
@@ -14,6 +16,12 @@ interface Reviews {
     reviews: Review[];
 }
 
+const starSizes = {
+    sm: 'w-3 h-3',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5'
+} as const;
+
 const StarRating: FC<StarRatingProps> = ({ 
     productId, 
     size = 'md',
@@ -23,18 +31,12 @@ const StarRating: FC<StarRatingProps> = ({
         .find(p => p.productId === productId)?.reviews || [];
 
     const averageRating = productReviews.length > 0
-        ? productReviews.reduce((acc, review) => acc + review.rating, 0) / productReviews.length
+        ? Math.round(productReviews.reduce((acc, review) => acc + review.rating, 0) / productReviews.length * 2) / 2
         : 0;
-
-    const starSizes = {
-        sm: 'w-3 h-3',
-        md: 'w-4 h-4',
-        lg: 'w-5 h-5'
-    };
 
     return (
         <div className="flex items-center gap-2">
-            <div className="flex">
+            <div className="flex" role="img">
                 {[1, 2, 3, 4, 5].map((star) => (
                     <FiStar
                         key={star}

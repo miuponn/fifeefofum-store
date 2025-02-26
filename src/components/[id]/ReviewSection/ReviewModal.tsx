@@ -1,18 +1,21 @@
+'use client';
+
 import { FC, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { FiX, FiChevronLeft, FiChevronRight, FiStar } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import ProductSummary from './ProductSummary';
-import { ReviewModalProps } from '../../../types/review';
+import type { ReviewModalProps } from '@/types/review';
 
 interface HoverStyle {
     scale: number;
     boxShadow: string;
 }
 
-const hoverStyle: HoverStyle = { 
+const hoverStyle: HoverStyle = {
     scale: 1.02,
-    boxShadow: "2px 4px 12px rgba(100, 0, 0, 0.2)" 
+    boxShadow: "2px 4px 12px rgba(100, 0, 0, 0.2)"
 };
 
 const ReviewModal: FC<ReviewModalProps> = ({ 
@@ -25,31 +28,30 @@ const ReviewModal: FC<ReviewModalProps> = ({
     onNavigateReview
 }) => {
     const [currentImage, setCurrentImage] = useState<number>(0);
-    const navigate = useNavigate();
+    const router = useRouter();
     
     if (!review || !isOpen || !product) return null;
 
     const hasMultipleMedia = review.media?.length > 1;
     const hasMultipleReviews = allMediaReviews?.length > 1;
 
-    // Event Handlers
     const handleProductClick = (): void => {
         onClose();
         if (product) {
-            navigate(`/product/${product.id}`);
+            router.push(`/product/${product.id}`);
         }
     };
 
     const handleNextReview = (): void => {
         if (currentReviewIndex < allMediaReviews.length - 1) {
-            setCurrentImage(0); // Reset image index for new review
+            setCurrentImage(0);
             onNavigateReview(currentReviewIndex + 1);
         }
     };
 
     const handlePrevReview = (): void => {
         if (currentReviewIndex > 0) {
-            setCurrentImage(0); // Reset image index for new review
+            setCurrentImage(0);
             onNavigateReview(currentReviewIndex - 1);
         }
     };
@@ -63,7 +65,7 @@ const ReviewModal: FC<ReviewModalProps> = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
-                    {/* Review Navigation Buttons */}
+                    {/* Review Navigation */}
                     {hasMultipleReviews && (
                         <>
                             <button 
@@ -88,7 +90,6 @@ const ReviewModal: FC<ReviewModalProps> = ({
                     )}
 
                     <div className="bg-white rounded-lg w-[95%] md:w-[90%] max-w-5xl h-[90vh] flex flex-col md:flex-row overflow-hidden relative">
-                        {/* Close Button */}
                         <button 
                             onClick={onClose}
                             className="absolute top-4 right-4 text-dark_pink hover:opacity-75 transition-opacity z-[55]"
@@ -98,33 +99,35 @@ const ReviewModal: FC<ReviewModalProps> = ({
 
                         {/* Media Section */}
                         <div className="w-full md:w-2/3 h-1/2 md:h-full relative bg-black">
-                            <motion.img
-                                key={currentImage}
-                                src={review.media[currentImage]}
-                                alt={`Review image ${currentImage + 1}`}
-                                className="w-full h-full object-contain"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                            />
+                            <div className="relative w-full h-full">
+                                <Image
+                                    key={currentImage}
+                                    src={review.media[currentImage]}
+                                    alt={`Review image ${currentImage + 1}`}
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 66vw"
+                                    className="object-contain"
+                                    priority
+                                />
+                            </div>
                             
                             {/* Image Navigation */}
                             {hasMultipleMedia && (
                                 <>
                                     <button 
+                                        onClick={() => setCurrentImage(prev => prev - 1)}
                                         className={`absolute left-4 top-1/2 -translate-y-1/2 ${
                                             currentImage === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
                                         }`}
-                                        onClick={() => setCurrentImage(prev => prev - 1)}
                                         disabled={currentImage === 0}
                                     >
                                         <FiChevronLeft className="w-8 h-8 text-white" />
                                     </button>
                                     <button 
+                                        onClick={() => setCurrentImage(prev => prev + 1)}
                                         className={`absolute right-4 top-1/2 -translate-y-1/2 ${
                                             currentImage === review.media.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
                                         }`}
-                                        onClick={() => setCurrentImage(prev => prev + 1)}
                                         disabled={currentImage === review.media.length - 1}
                                     >
                                         <FiChevronRight className="w-8 h-8 text-white" />
@@ -133,20 +136,20 @@ const ReviewModal: FC<ReviewModalProps> = ({
                             )}
                         </div>
 
-                        {/* Review Details Section */}
+                        {/* Review Details */}
                         <div className="w-full md:w-1/3 p-6 flex flex-col justify-between h-1/2 md:h-full">
                             <div className="space-y-6">
                                 <div className="mb-4">
-                                    <span className="text-xs text-dark_pink_secondary">
+                                    <time className="text-xs text-dark_pink_secondary">
                                         {new Date(review.date).toLocaleDateString()}
-                                    </span>
+                                    </time>
                                     <h4 className="text-sm font-poppins text-dark_pink">
                                         {review.username}
                                     </h4>
                                 </div>
                                 
-                                <div className="flex mb-4">
-                                    {[...Array(5)].map((_, i: number) => (
+                                <div className="flex mb-4" aria-label={`Rating: ${review.rating} out of 5 stars`}>
+                                    {[...Array(5)].map((_, i) => (
                                         <FiStar 
                                             key={i} 
                                             className={`w-4 h-4 ${

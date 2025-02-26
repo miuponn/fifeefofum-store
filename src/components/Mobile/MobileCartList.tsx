@@ -1,8 +1,10 @@
+'use client';
+
 import { FC } from 'react';
-import { useCart } from '../../context/CartContext';
-import CartProductSummary from '../Cart/CartProductSummary';
-import EmptyCart from '../Cart/EmptyCart';
-import { CartItem } from '../../types/cart';
+import { useCart } from '@/context/CartContext';
+import CartProductSummary from '@/components/Cart/CartProductSummary';
+import EmptyCart from '@/components/Cart/EmptyCart';
+import type { CartItem } from '@/types/cart';
 
 const MobileCartList: FC = () => {
     const { cartItems } = useCart();
@@ -16,8 +18,12 @@ const MobileCartList: FC = () => {
         <div className="w-full md:hidden">
             {/* Column Headers */}
             <div className="flex justify-between pb-4 border-b border-[#F9E1E1]">
-                <span className="font-poppins font-medium text-dark_pink text-sm">PRODUCT</span>
-                <span className="font-poppins font-medium text-dark_pink text-sm">QUANTITY</span>
+                <span className="font-poppins font-medium text-dark_pink text-sm">
+                    PRODUCT
+                </span>
+                <span className="font-poppins font-medium text-dark_pink text-sm">
+                    QUANTITY
+                </span>
             </div>
 
             {/* Cart Items */}

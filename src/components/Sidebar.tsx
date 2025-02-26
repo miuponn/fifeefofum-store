@@ -1,7 +1,10 @@
+'use client';
+
 import { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
 import { FiChevronUp } from 'react-icons/fi';
-import lovebirdsImage from '../assets/images/lovebirds.png';
+import lovebirdsImage from '@/assets/images/lovebirds.png';
 
 interface SidebarProps {
     backgroundColor?: string;
@@ -23,7 +26,9 @@ const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange }) => {
 
     return (
         <li className="flex items-center gap-2 cursor-pointer" onClick={handleChange}>
-            <div className="w-4 h-4 border-2 border-[#E57485] rounded flex items-center justify-center">
+            <div className="w-4 h-4 border border-button_pink rounded cursor-pointer 
+                          flex items-center justify-center transition-colors duration-300
+                          hover:border-dark_pink">
                 {isChecked && (
                     <svg className="w-3 h-3 text-button_pink" viewBox="0 0 24 24">
                         <path
@@ -47,6 +52,9 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
     const [categoryOpen, setCategoryOpen] = useState<boolean>(true);
     const [availabilityOpen, setAvailabilityOpen] = useState<boolean>(true);
 
+    const categories = ["Phone Charms", "Stickers", "Keychains", "Jewelry", "Accessories"];
+    const availabilityOptions = ["In Stock", "Out of Stock"];
+
     return (
         <aside className={`bg-${backgroundColor} p-4 rounded-lg`}>
             <div className="px-4 md:px-6 lg:px-8 py-6 md:py-8 flex-grow">
@@ -55,7 +63,7 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
                 </h2>
 
                 <nav className="text-sm font-poppins font-light text-dark_pink mb-6">
-                    <Link to="/" className="hover:underline text-[#AF001A]">Home</Link>
+                    <Link href="/" className="hover:underline text-[#AF001A]">Home</Link>
                     <span className="text-red-500 mx-3">&gt;</span>
                     <span className="text-dark_pink">Products</span>
                 </nav>
@@ -76,7 +84,7 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
                         </button>
                         <div className={`transform transition-all duration-300 ease-in-out overflow-hidden ${categoryOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                             <ul className="mt-2 mb-6 space-y-2">
-                                {["Phone Charms", "Stickers", "Keychains", "Jewelry", "Accessories"].map((category) => (
+                                {categories.map((category) => (
                                     <CustomCheckbox key={category} label={category} />
                                 ))}
                             </ul>
@@ -94,7 +102,7 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
                         </button>
                         <div className={`transform transition-all duration-300 ease-in-out overflow-hidden ${availabilityOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                             <ul className="mt-2 mb-6 space-y-2">
-                                {["In Stock", "Out of Stock"].map((status) => (
+                                {availabilityOptions.map((status) => (
                                     <CustomCheckbox key={status} label={status} />
                                 ))}
                             </ul>
@@ -104,9 +112,12 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
             </div>
 
             <div className="px-4 md:px-6 lg:px-8 py-6 flex justify-center">
-                <img 
-                    src={lovebirdsImage} 
+                <Image 
+                    src={lovebirdsImage}
                     alt="Lovebirds"
+                    width={200}
+                    height={200}
+                    priority={false}
                     className="h-[160px] md:h-[180px] lg:h-[200px] w-auto object-contain"
                 />
             </div>

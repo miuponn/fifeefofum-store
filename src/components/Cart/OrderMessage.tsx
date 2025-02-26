@@ -1,15 +1,31 @@
-import {FC, useState, ChangeEvent } from 'react';
+'use client';
+
+import { FC, useState, ChangeEvent } from 'react';
 
 interface OrderMessageProps {
     className?: string;
+    onGiftWrapChange?: (isGift: boolean) => void;
+    onMessageChange?: (message: string) => void;
 }
 
-const OrderMessage: FC<OrderMessageProps> = ({ className = '' }) => {
+const OrderMessage: FC<OrderMessageProps> = ({ 
+    className = '',
+    onGiftWrapChange,
+    onMessageChange 
+}) => {
     const [isGiftWrap, setIsGiftWrap] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
 
+    const handleGiftWrapToggle = (): void => {
+        const newValue = !isGiftWrap;
+        setIsGiftWrap(newValue);
+        onGiftWrapChange?.(newValue);
+    };
+
     const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-        setMessage(e.target.value);
+        const newMessage = e.target.value;
+        setMessage(newMessage);
+        onMessageChange?.(newMessage);
     };
 
     return (
@@ -17,18 +33,41 @@ const OrderMessage: FC<OrderMessageProps> = ({ className = '' }) => {
             {/* Gift Wrap Option */}
             <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        id="gift-wrap"
-                        checked={isGiftWrap}
-                        onChange={(e) => setIsGiftWrap(e.target.checked)}
-                        className="w-4 h-4 accent-dark_pink cursor-pointer"
-                    />
-                    <label 
-                        htmlFor="gift-wrap"
-                        className="font-poppins font-regular text-dark_pink text-sm cursor-pointer"
+                    <div 
+                        className={`w-4 h-4 border border-button_pink rounded cursor-pointer 
+                            flex items-center justify-center transition-colors duration-300
+                            ${isGiftWrap ? 'bg-button_pink' : 'bg-transparent'}`}
+                        onClick={handleGiftWrapToggle}
+                        role="checkbox"
+                        tabIndex={0}
+                        onKeyDown={(e: React.KeyboardEvent) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleGiftWrapToggle();
+                            }
+                        }}
                     >
-                        Is this a gift?
+                        {isGiftWrap && (
+                            <svg 
+                                className="w-3 h-3 text-white" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round" 
+                                    strokeWidth="2" 
+                                    d="M5 13l4 4L19 7" 
+                                />
+                            </svg>
+                        )}
+                    </div>
+                    <label 
+                        className="font-poppins font-regular text-dark_pink text-sm cursor-pointer"
+                        onClick={handleGiftWrapToggle}
+                    >
                     </label>
                 </div>
                 <span className="font-poppins font-regular text-dark_pink_secondary text-xs">

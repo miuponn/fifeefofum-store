@@ -1,14 +1,9 @@
+'use client';
+
 import { FC } from 'react';
-import { useCart } from '../../context/CartContext';
 import CartListItem from './CartListItem';
-
-
-interface Styles {
-    nameStyle: string;
-    priceStyle: string;
-    subtotalStyle: string;
-    quantityStyle: string;
-}
+import { useCart } from '@/context/CartContext';
+import type { Styles } from '@/types/cart';
 
 const CartList: FC = () => {
     const { cartItems, updateQuantity } = useCart();
@@ -24,10 +19,18 @@ const CartList: FC = () => {
         <div className="w-full hidden md:block">
             {/* Column Headers */}
             <div className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-6 pb-4 border-b border-[#F9E1E1]">
-                <span className="font-poppins font-medium text-accent_green text-sm">PRODUCT</span>
-                <span className="font-poppins font-medium text-accent_green text-sm text-center">PRICE</span>
-                <span className="font-poppins font-medium text-accent_green text-sm text-center">QUANTITY</span>
-                <span className="font-poppins font-medium text-accent_green text-sm text-right">TOTAL</span>
+                <span className="font-poppins font-medium text-accent_green text-sm">
+                    PRODUCT
+                </span>
+                <span className="font-poppins font-medium text-accent_green text-sm text-center">
+                    PRICE
+                </span>
+                <span className="font-poppins font-medium text-accent_green text-sm text-center">
+                    QUANTITY
+                </span>
+                <span className="font-poppins font-medium text-accent_green text-sm text-right">
+                    TOTAL
+                </span>
             </div>
 
             {/* Cart Items */}

@@ -1,11 +1,14 @@
+'use client';
+
 import { FC } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import products from '../data/products';
 import ProductCard from './ProductCard';
-import gridPattern from '../assets/images/grid-pattern.svg';
-import sparklesLeft from '../assets/images/sparkles-l.svg';
-import sparklesRight from '../assets/images/sparkles-r.svg';
-import { Product } from '../types/product';
+import gridPattern from '@/assets/images/grid-pattern.svg';
+import sparklesLeft from '@/assets/images/sparkles-l.svg';
+import sparklesRight from '@/assets/images/sparkles-r.svg';
+import products from '@/data/products';
+import type { Product } from '@/types/product';
 
 const FeaturedItems: FC = () => {
     const displayedProducts: Product[] = products.slice(0, 4);
@@ -26,16 +29,18 @@ const FeaturedItems: FC = () => {
             <div
                 style={{ backgroundImage: `url(${gridPattern})` }}
                 className="absolute inset-0 w-full h-full bg-repeat opacity-50 pointer-events-none bg-cover"
-            ></div>
+            />
 
             {/* Content Container */}
             <section className="relative w-full pt-6 pb-3 sm:pt-8 sm:pb-4 md:pt-10 md:pb-6 lg:pt-12 lg:pb-8 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
                 {/* Section Header */}
                 <div className="relative flex items-center justify-center gap-4 mb-3 sm:mb-4 md:mb-6">
                     {/* Left Sparkles */}
-                    <img 
-                        src={sparklesLeft} 
+                    <Image 
+                        src={sparklesLeft}
                         alt="Left Sparkles"
+                        width={32}
+                        height={32}
                         className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                     />
 
@@ -44,16 +49,18 @@ const FeaturedItems: FC = () => {
                     </h2>
 
                     {/* Right Sparkles */}
-                    <img 
-                        src={sparklesRight} 
+                    <Image 
+                        src={sparklesRight}
                         alt="Right Sparkles"
+                        width={32}
+                        height={32}
                         className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                     />
                 </div>
 
                 {/* Product Grid */}
                 <div className="relative grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-5 max-w-6xl mx-auto">
-                    {displayedProducts.map((product: Product) => (
+                    {displayedProducts.map((product) => (
                         <motion.div 
                             key={product.id}
                             className="w-[90%] mx-auto"

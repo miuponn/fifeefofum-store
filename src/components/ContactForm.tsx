@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useState, ChangeEvent, FormEvent } from 'react';
 
 interface FormData {
@@ -31,50 +33,26 @@ const ContactForm: FC = () => {
         }));
         // Clear error when user starts typing
         if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
+            setErrors(prev => ({ ...prev, [name]: '' }));
         }
-    };
-
-    const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
-        
-        if (!formData.name.trim()) {
-            newErrors.name = 'Name is required';
-        }
-        
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Invalid email address';
-        }
-        
-        if (!formData.subject.trim()) {
-            newErrors.subject = 'Subject is required';
-        }
-        
-        if (!formData.message.trim()) {
-            newErrors.message = 'Message is required';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        if (!validateForm()) return;
-
         setIsSubmitting(true);
-        // Add your form submission logic here
-        setIsSubmitting(false);
+        try {
+            // form submission logic here
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto bg-transparent space-y-6">
+            {/* Name and Email Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Name Input */}
                 <div className="flex flex-col">
                     <input
                         type="text"
@@ -83,11 +61,11 @@ const ContactForm: FC = () => {
                         onChange={handleChange}
                         placeholder="Name"
                         className="w-full px-4 py-2 bg-white border border-[#4A9BFF] rounded-sm 
-                        font-poppins text-blue placeholder-blue text-sm focus:outline-none"
+                                 font-poppins text-blue placeholder-blue text-sm focus:outline-none"
                     />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
 
+                {/* Email Input */}
                 <div className="flex flex-col">
                     <input
                         type="email"
@@ -95,14 +73,15 @@ const ContactForm: FC = () => {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Email*"
+                        required
                         className="w-full px-4 py-2 bg-white border border-[#4A9BFF] rounded-sm 
-                        font-poppins text-blue placeholder-blue text-sm focus:outline-none"
+                                 font-poppins text-blue placeholder-blue text-sm focus:outline-none"
                     />
-                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
             </div>
 
-            <div className="mb-4">
+            {/* Phone Input */}
+            <div>
                 <input
                     type="tel"
                     name="phone"
@@ -110,11 +89,12 @@ const ContactForm: FC = () => {
                     onChange={handleChange}
                     placeholder="Phone"
                     className="w-full px-4 py-2 bg-white border border-[#4A9BFF] rounded-sm 
-                    font-poppins text-blue placeholder-blue text-sm focus:outline-none"
+                             font-poppins text-blue placeholder-blue text-sm focus:outline-none"
                 />
             </div>
 
-            <div className="mb-4">
+            {/* Subject Input */}
+            <div>
                 <input
                     type="text"
                     name="subject"
@@ -122,12 +102,12 @@ const ContactForm: FC = () => {
                     onChange={handleChange}
                     placeholder="Subject"
                     className="w-full px-4 py-2 bg-white border border-[#4A9BFF] rounded-sm 
-                    font-poppins text-blue placeholder-blue text-sm focus:outline-none"
+                             font-poppins text-blue placeholder-blue text-sm focus:outline-none"
                 />
-                {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
             </div>
 
-            <div className="mb-4">
+            {/* Message Input */}
+            <div>
                 <textarea
                     name="message"
                     value={formData.message}
@@ -135,17 +115,18 @@ const ContactForm: FC = () => {
                     placeholder="Message..."
                     rows={8}
                     className="w-full px-4 py-2 bg-white border border-[#4A9BFF] rounded-sm 
-                    font-poppins text-blue placeholder-blue text-sm focus:outline-none resize-none"
-                ></textarea>
-                {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                             font-poppins text-blue placeholder-blue text-sm focus:outline-none resize-none"
+                />
             </div>
 
+            {/* Submit Button */}
             <button
                 type="submit"
-                className="w-full py-3 mt-4 bg-button_pink text-white rounded-md font-poppins font-medium
-                    hover:bg-white hover:text-button_pink border border-transparent
-                    hover:border-button_pink transition-all duration-300"
                 disabled={isSubmitting}
+                className="w-full py-3 mt-4 bg-button_pink text-white rounded-md font-poppins font-medium
+                         hover:bg-white hover:text-button_pink border border-transparent
+                         hover:border-button_pink transition-all duration-300
+                         disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {isSubmitting ? 'Submitting...' : 'SUBMIT'}
             </button>

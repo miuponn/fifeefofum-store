@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Header from "../components/Header";
-import Hero from "../components/Hero";
+import Hero from "../components/Hero/Hero";
 import FeaturedItems from "../components/FeaturedItems";
 import IntroSection from "../components/IntroSection";
 import Footer from "../components/Footer";

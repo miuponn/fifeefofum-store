@@ -1,9 +1,12 @@
-import React, { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+'use client';
+
+import { FC, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useCart } from '../context/CartContext';
-import useImagePreloader from '../hooks/useImagePreloader';
-import { Product } from '../types/product';
+import { useCart } from '@/context/CartContext';
+import useImagePreloader from '@/hooks/useImagePreloader';
+import type { Product } from '@/types/product';
 
 interface ProductCardProps {
     id: string;
@@ -28,17 +31,17 @@ const ProductCard: FC<ProductCardProps> = ({
     buttonStyle = '',
     priceStyle = '',
     nameStyle = '',
-    buttonHoverStyle = '',
-    priceHoverStyle = '',
-    nameHoverStyle = ''
+    buttonHoverStyle = 'hover:bg-pink hover:text-white',
+    priceHoverStyle = 'hover:text-peach',
+    nameHoverStyle = 'hover:underline decoration-dark_green'
 }) => {
+    const router = useRouter();
     const [isHovered, setIsHovered] = useState<boolean>(false);
-    const navigate = useNavigate();
     const { addToCart, setIsCartOpen } = useCart();
     const imagesLoaded = useImagePreloader([image, thumbnail2 || '']);
 
     const handleProductClick = (): void => {
-        navigate(`/product/${id}`);
+        router.push(`/product/${id}`);
     };
 
     const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -71,18 +74,24 @@ const ProductCard: FC<ProductCardProps> = ({
                 >
                     {imagesLoaded ? (
                         <>
-                            <img
+                            <Image
                                 src={image}
                                 alt={name}
-                                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-in-out ${
+                                fill
+                                sizes="(max-width: 768px) 50vw, 33vw"
+                                priority={false}
+                                className={`object-cover transition-opacity duration-300 ease-in-out ${
                                     isHovered ? 'opacity-0' : 'opacity-100'
                                 }`}
                             />
                             {thumbnail2 && (
-                                <img
+                                <Image
                                     src={thumbnail2}
                                     alt={`${name} - alternate view`}
-                                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-in-out ${
+                                    fill
+                                    sizes="(max-width: 768px) 50vw, 33vw"
+                                    priority={false}
+                                    className={`object-cover transition-opacity duration-300 ease-in-out ${
                                         isHovered ? 'opacity-100' : 'opacity-0'
                                     }`}
                                 />

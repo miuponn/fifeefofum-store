@@ -1,4 +1,7 @@
+'use client';
+
 import { FC } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 interface ProductSummaryProps {
@@ -28,14 +31,19 @@ const ProductSummary: FC<ProductSummaryProps> = ({
             className={`flex items-center gap-4 p-2 transition-all duration-300 ${containerStyle}`}
             whileHover={hoverStyle}
         >
-            <div className="w-16 h-16 flex-shrink-0">
-                <img 
+            {/* Product Thumbnail */}
+            <div className="w-16 h-16 flex-shrink-0 relative">
+                <Image 
                     src={image} 
-                    alt={name} 
-                    className="w-full h-full object-cover rounded-md"
+                    alt={name}
+                    fill
+                    sizes="64px"
+                    className="object-cover rounded-md"
+                    priority={false}
                 />
             </div>
 
+            {/* Product Info */}
             <div className="flex flex-col">
                 <h4 className={nameStyle}>{name}</h4>
                 <p className={priceStyle}>{price}</p>

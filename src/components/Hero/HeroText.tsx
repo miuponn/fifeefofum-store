@@ -1,5 +1,8 @@
-import { FC, useEffect, useState } from "react";
-import { motion, AnimationProps } from "framer-motion";
+'use client';
+
+import { FC, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const HeroText: FC = () => {
     const fullText = "a signature catchphrase goes here.";
@@ -19,7 +22,7 @@ const HeroText: FC = () => {
         }
     }, [index]);
 
-    const twinkleAnimation: AnimationProps['animate'] = {
+    const twinkleAnimation = {
         scale: [1, 1.2, 1],
         opacity: [0.3, 1, 0.3],
         transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
@@ -27,17 +30,18 @@ const HeroText: FC = () => {
 
     return (
         <div className="relative flex flex-col items-center justify-center text-center text-white w-full h-full">
-            {/* Typing text and twinkling stars Container */}
             <div className="relative w-full pb-10 md:pb-12 lg:pb-16">
                 {/* Twinkling Stars */}
                 <motion.span
-                    className="absolute top-[-5%] left-[-5%] text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] text-white drop-shadow-custom"
+                    className="absolute top-[-5%] left-[-5%] text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] 
+                        text-white drop-shadow-custom select-none pointer-events-none"
                     animate={twinkleAnimation}
                 >
                     ✦
                 </motion.span>
                 <motion.span
-                    className="absolute bottom-[-1%] right-[-1%] text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] text-white drop-shadow-custom"
+                    className="absolute bottom-[-1%] right-[-1%] text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] 
+                        text-white drop-shadow-custom select-none pointer-events-none"
                     animate={twinkleAnimation}
                 >
                     ✦
@@ -49,25 +53,37 @@ const HeroText: FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
+                    role="heading"
                 >
                     {displayText}
-                    <span className="inline-block w-1 h-8 bg-white animate-pulse ml-1"></span> {/* Blinking Cursor */}
+                    <span 
+                        className="inline-block w-1 h-8 bg-white animate-pulse ml-1"
+                    />
                 </motion.p>
             </div>
 
             {/* SHOP ALL Button */}
             <div className="h-12">
-                {isTextComplete && (
-                    <motion.a
-                        href="/products"
-                        className="px-10 py-3 bg-white text-lg font-poppins font-semibold rounded-2xl shadow-md transition-all duration-300 text-[#FFB6B7] hover:bg-[#FFB6B7] hover:text-white"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5, duration: 1 }}
-                    >
-                        SHOP ALL
-                    </motion.a>
-                )}
+                <AnimatePresence>
+                    {isTextComplete && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ delay: 0.5, duration: 0.5 }}
+                        >
+                            <Link 
+                                href="/products"
+                                className="inline-block px-10 py-3 bg-white text-lg font-poppins font-semibold 
+                                    rounded-2xl shadow-md transition-all duration-300 text-[#FFB6B7] 
+                                    hover:bg-[#FFB6B7] hover:text-white focus:outline-none focus:ring-2 
+                                    focus:ring-[#FFB6B7] focus:ring-offset-2"
+                            >
+                                SHOP ALL
+                            </Link>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );
