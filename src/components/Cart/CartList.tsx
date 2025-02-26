@@ -9,9 +9,9 @@ const CartList: FC = () => {
     const { cartItems, updateQuantity } = useCart();
 
     const styles: Styles = {
-        nameStyle: "font-urbanist font-bold text-button_pink",
-        priceStyle: "font-urbanist font-semibold text-pink",
-        subtotalStyle: "font-urbanist font-semibold text-dark_pink",
+        nameStyle: "font-urbanist font-medium text-button_pink",
+        priceStyle: "font-urbanist font-regular text-pink",
+        subtotalStyle: "font-urbanist font-regular text-dark_pink",
         quantityStyle: "font-poppins font-light text-dark_pink"
     };
 

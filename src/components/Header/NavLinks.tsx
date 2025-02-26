@@ -105,7 +105,7 @@ const NavLinks = () => {
             </div>
             
             {/* Navigation Links */}
-            {['about', 'faqs', 'contact'].map((path) => (
+            {['about', 'FAQs', 'contact'].map((path) => (
                 <Link 
                     key={path}
                     href={`/${path}`}

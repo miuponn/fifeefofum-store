@@ -29,7 +29,7 @@ const RecommendedItems: FC<RecommendedItemsProps> = ({ products, currentProductI
 
     return (
         <section className="relative w-full pt-6 pb-3 sm:pt-8 sm:pb-4 md:pt-10 md:pb-6 lg:pt-12 lg:pb-8 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-            {/* Section Header with Sparkles */}
+            {/* section header w/ sparkles */}
             <div className="relative flex items-center justify-center gap-4 mb-3 sm:mb-4 md:mb-6">
                 <Image 
                     src={sparklesLeft} 

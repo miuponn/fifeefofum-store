@@ -1,8 +1,11 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { Product } from '../types/product';
+'use client'
+
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import type { Product } from '@/types/product';
 
 interface CartItem extends Product {
     quantity: number;
+    selectedStyle?: string;  
 }
 
 interface CartContextType {
@@ -16,15 +19,21 @@ interface CartContextType {
     getCartItemsCount: () => number;
 }
 
-interface CartProviderProps {
-    children: ReactNode;
-}
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const CartContext = createContext<CartContextType | undefined>(undefined);
-
-export const CartProvider = ({ children }: CartProviderProps) => {
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+    const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('cart');
+            return saved ? JSON.parse(saved) : [];
+        }
+        return [];
+    });
     const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     const addToCart = (product: Product, quantity: number): void => {
         setCartItems(prevItems => {
@@ -84,10 +93,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
 export const useCart = (): CartContextType => {
     const context = useContext(CartContext);
-    if (context === undefined) {
+    if (!context) {
         throw new Error('useCart must be used within a CartProvider');
     }
     return context;
 };
-
-export default CartContext;

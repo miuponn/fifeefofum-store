@@ -27,7 +27,7 @@ const socialLinks: SocialLink[] = [
     {
         name: 'Etsy',
         url: 'https://www.etsy.com/shop/fifeefofum',
-        icon: <Image src={etsyIcon} alt="Etsy" width={28} height={28} className="h-6 sm:h-7 w-auto" />
+        icon: <Image src={etsyIcon} alt="Etsy" width={28} height={28} className="h-6 sm:h-7 mt-1 w-auto" />
     }
 ];
 

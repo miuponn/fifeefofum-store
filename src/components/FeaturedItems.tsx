@@ -13,26 +13,27 @@ import type { Product } from '@/types/product';
 const FeaturedItems: FC = () => {
     const displayedProducts: Product[] = products.slice(0, 4);
 
-    // Product Card styles
     const buttonStyle = "mt-2 sm:mt-3 px-4 sm:px-6 py-2 sm:py-3 bg-button_pink text-white font-poppins font-normal";
-    const priceStyle = "text-dark_green font-urbanist";
-    const nameStyle = "font-urbanist text-dark_green";
-
-    // Hover styles
+    const priceStyle = "text-dark_green font-urbanist font-regular"; 
+    const nameStyle = "font-urbanist text-dark_green font-medium"; 
     const buttonHoverStyle = "hover:bg-white hover:text-button_pink";
     const priceHoverStyle = "hover:text-peach";
     const nameHoverStyle = "hover:underline decoration-dark_green";
 
     return (
-        <div className="relative w-full bg-[#DCEDC1]">
+        <div className="relative w-full bg-[#DCEDC1] overflow-hidden">
             {/* Grid Overlay */}
             <div
-                style={{ backgroundImage: `url(${gridPattern})` }}
+                style={{ 
+                    backgroundImage: `url(${gridPattern.src})`,
+                    zIndex: 1
+                }}
                 className="absolute inset-0 w-full h-full bg-repeat opacity-50 pointer-events-none bg-cover"
+                aria-hidden="true"
             />
 
             {/* Content Container */}
-            <section className="relative w-full pt-6 pb-3 sm:pt-8 sm:pb-4 md:pt-10 md:pb-6 lg:pt-12 lg:pb-8 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+            <section className="relative z-10 w-full pt-6 pb-3 sm:pt-8 sm:pb-4 md:pt-10 md:pb-6 lg:pt-12 lg:pb-8 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
                 {/* Section Header */}
                 <div className="relative flex items-center justify-center gap-4 mb-3 sm:mb-4 md:mb-6">
                     {/* Left Sparkles */}

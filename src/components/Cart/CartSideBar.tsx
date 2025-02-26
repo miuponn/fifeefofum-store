@@ -66,7 +66,7 @@ const CartSideBar: FC<CartSideBarProps> = ({ onClose }) => {
                         className="fixed right-0 top-0 h-full w-[90%] sm:w-[400px] bg-white z-50 shadow-lg"
                     >
                         {/* Header */}
-                        <div className="px-6 py-4 border-b border-[#F9E1E1] flex justify-between items-center">
+                        <div className="px-6 py-4 flex justify-between items-center">
                             <div className="flex items-baseline gap-2">
                                 <h2 className="font-magicalsnow text-pink text-4xl pt-2">
                                     Your Cart

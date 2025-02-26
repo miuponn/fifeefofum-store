@@ -1,18 +1,26 @@
-import { Metadata } from 'next';
-import '../styles/globals.css';
+'use client';
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://fifeefofum.com'),
-  title: {
-    default: 'Fifeefofum',
-    template: '%s | Fifeefofum'
-  },
-  description: 'Your cute and cozy store',
-  openGraph: {
-    title: 'Fifeefofum',
-    description: 'Your cute and cozy store',
-    images: ['/images/og-image.png'],
-  }
+import { FC } from 'react';
+import { Metadata, Viewport } from 'next';
+import '../styles/globals.css';
+import { CartProvider } from '@/context/CartContext';
+import CartSideBar from '@/components/Cart/CartSideBar';
+import MobileHeader from '@/components/Mobile/MobileHeader';
+import FilterSidebar from '@/components/Mobile/FilterSidebar';
+import HamburgerMenu from '@/components/Mobile/HamburgerMenu';
+import { Urbanist } from 'next/font/google';
+
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-urbanist',
+});
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  themeColor: '#ffffff'
 };
 
 export default function RootLayout({
@@ -21,8 +29,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={urbanist.variable}>
+      <body>
+        <CartProvider>
+          <div className="relative">
+            {/* Mobile nav elements */}
+            <div className="md:hidden">
+              <MobileHeader />
+              <HamburgerMenu />
+              <FilterSidebar 
+                isOpen={false} 
+                closeFilter={() => {}} 
+              />
+            </div>
+
+            {/* Main Content */}
+            {children}
+
+            {/* Global Overlays */}
+            <CartSideBar />
+          </div>
+        </CartProvider>
+      </body>
     </html>
   );
 }

@@ -7,34 +7,32 @@ import productsData from '@/data/products';
 import type { Product } from '@/types/product';
 
 interface ProductGridProps {
-    backgroundColor?: string;
+    backgroundColor: string;
+    sortOption: 'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow';
+    onSortChange: (value: 'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow') => void;
 }
 
-type SortOption = 'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow';
-
-const ProductGrid: FC<ProductGridProps> = ({ backgroundColor = "white" }) => {
-    const [sortOption, setSortOption] = useState<SortOption>("Bestselling");
+const ProductGrid: FC<ProductGridProps> = ({ 
+    backgroundColor, 
+    sortOption,
+    onSortChange 
+}) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     
     const productsPerPage = 16;
     const totalPages = Math.ceil(productsData.length / productsPerPage);
 
-    const handleSortChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-        setSortOption(event.target.value as SortOption);
-        setCurrentPage(1); // reset to first page on sort
-    };
-
     const sortedProducts = useMemo(() => {
-        let sorted = [...productsData];
+        const products = [...productsData];
         switch (sortOption) {
             case 'Alphabetical':
-                return sorted.sort((a, b) => a.name.localeCompare(b.name));
+                return products.sort((a, b) => a.name.localeCompare(b.name));
             case 'PriceLowHigh':
-                return sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                return products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
             case 'PriceHighLow':
-                return sorted.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                return products.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
             default:
-                return sorted;
+                return products; // Bestselling (default order)
         }
     }, [sortOption]);
 
@@ -56,7 +54,7 @@ const ProductGrid: FC<ProductGridProps> = ({ backgroundColor = "white" }) => {
                     <select
                         className="border border-pink rounded-md px-3 py-2 text-sm bg-transparent text-dark_pink_secondary"
                         value={sortOption}
-                        onChange={handleSortChange}
+                        onChange={(e) => onSortChange(e.target.value as typeof sortOption)}
                     >
                         <option value="Bestselling">Bestselling</option>
                         <option value="Alphabetical">Alphabetical, A-Z</option>
@@ -91,8 +89,8 @@ const ProductGrid: FC<ProductGridProps> = ({ backgroundColor = "white" }) => {
                                 name={product.name}
                                 price={product.price}
                                 buttonStyle="px-4 py-2 bg-transparent border border-pink text-dark_pink_secondary hover:bg-pink hover:text-white"
-                                priceStyle="text-dark_pink_secondary font-urbanist"
-                                nameStyle="text-sm md:text-md text-dark_pink font-bold font-urbanist"
+                                priceStyle="text-dark_pink_secondary font-urbanist font-regular"
+                                nameStyle="text-sm md:text-md text-dark_pink font-medium font-urbanist"
                                 nameHoverStyle="hover:underline decoration-dark_pink"
                             />
                         </motion.div>
@@ -129,3 +127,4 @@ const ProductGrid: FC<ProductGridProps> = ({ backgroundColor = "white" }) => {
 };
 
 export default ProductGrid;
+export type { ProductGridProps };

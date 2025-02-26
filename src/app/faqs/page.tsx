@@ -10,12 +10,6 @@ import { faqsData } from '@/data/faqsData';
 import twinklesLeft from '@/assets/images/twinkles-l.svg';
 import twinklesRight from '@/assets/images/twinkles-r.svg';
 import moBlueberry from '@/assets/images/mo-blueberry.png';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'FAQs',
-  description: 'Frequently asked questions about products and services'
-};
 
 interface FAQItemProps {
   question: string;

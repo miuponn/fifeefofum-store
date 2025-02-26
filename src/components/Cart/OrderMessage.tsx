@@ -38,7 +38,6 @@ const OrderMessage: FC<OrderMessageProps> = ({
                             flex items-center justify-center transition-colors duration-300
                             ${isGiftWrap ? 'bg-button_pink' : 'bg-transparent'}`}
                         onClick={handleGiftWrapToggle}
-                        role="checkbox"
                         tabIndex={0}
                         onKeyDown={(e: React.KeyboardEvent) => {
                             if (e.key === 'Enter' || e.key === ' ') {
@@ -64,15 +63,10 @@ const OrderMessage: FC<OrderMessageProps> = ({
                             </svg>
                         )}
                     </div>
-                    <label 
-                        className="font-poppins font-regular text-dark_pink text-sm cursor-pointer"
-                        onClick={handleGiftWrapToggle}
-                    >
-                    </label>
+                    <span className="font-poppins font-regular text-dark_pink_secondary text-xs">
+                        For $10.00, wrap this order (add gift message below)
+                    </span>
                 </div>
-                <span className="font-poppins font-regular text-dark_pink_secondary text-xs">
-                    For $10.00, wrap this order (add gift message below)
-                </span>
             </div>
 
             {/* Special Instructions */}

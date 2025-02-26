@@ -10,19 +10,14 @@ import FilterButton from '@/components/Mobile/FilterButton';
 import FilterSidebar from '@/components/Mobile/FilterSidebar';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Products',
-  description: 'Browse our collection of cute and cozy items'
-};
-
 type SortOption = 'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow';
 
 const ProductsPage: FC = () => {
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
     const [sortOption, setSortOption] = useState<SortOption>('Bestselling');
 
-    const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSortOption(e.target.value as SortOption);
+    const handleSortChange = (value: SortOption) => {
+        setSortOption(value);
     };
 
     return (
@@ -54,7 +49,7 @@ const ProductsPage: FC = () => {
                         className="border border-pink bg-transparent rounded-md px-3 py-2 text-sm 
                                  text-dark_pink_secondary"
                         value={sortOption}
-                        onChange={handleSortChange}
+                        onChange={(e) => handleSortChange(e.target.value as SortOption)}
                     >
                         <option value="Bestselling">Bestselling</option>
                         <option value="Alphabetical">Alphabetical, A-Z</option>
@@ -80,6 +75,7 @@ const ProductsPage: FC = () => {
                         <ProductGrid 
                             backgroundColor="#FFF7F7"
                             sortOption={sortOption}
+                            onSortChange={handleSortChange}
                         />
                     </div>
                 </div>

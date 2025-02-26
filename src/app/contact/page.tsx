@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const ContactPage: FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-bg_pink">
+    <div className="min-h-screen flex flex-col bg-[#E8F7D1]">
       <Header />
       
       <main className="flex-grow py-8 md:py-12 lg:py-16">

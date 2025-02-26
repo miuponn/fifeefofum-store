@@ -12,16 +12,10 @@ import ProductReviews from '@/components/[id]/ProductReviews';
 import RecommendedItems from '@/components/[id]/RecommendedItems';
 import productsData from '@/data/products';
 import type { Product } from '@/types/product';
-import type { Metadata } from 'next';
 
 interface LocationState {
     from?: string;
 }
-
-export const metadata: Metadata = {
-  title: 'Product Details',
-  description: 'View product details and options'
-};
 
 const ProductDetailsPage: FC = () => {
     const params = useParams();

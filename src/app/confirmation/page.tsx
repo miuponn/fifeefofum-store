@@ -5,12 +5,6 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Order Confirmation',
-  description: 'Thank you for your order at Fifeefofum!'
-};
 
 const OrderConfirmationPage: FC = () => {
   return (

@@ -14,7 +14,7 @@ const AnnouncementBar: FC<AnnouncementBarProps> = ({ message }) => {
             className="bg-accent_pink w-full text-center text-white py-2"
         >
             <motion.p 
-                className="text-xs sm:text-sm md:text-base font-poppins font-light tracking-wide flex items-center justify-center gap-2"
+                className="text-xs sm:text-sm md:text-base font-poppins font-regular tracking-wide flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.2 }}
             >

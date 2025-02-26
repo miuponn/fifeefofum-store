@@ -60,7 +60,6 @@ const CurrencySelector = ({ expandUp = false }: CurrencySelectorProps) => {
                     className={`absolute ${expandUp ? 'bottom-full mb-2' : 'top-full mt-2'} 
                         left-0 w-48 bg-white border border-pink rounded-md max-h-60 overflow-auto 
                         shadow-lg z-50`}
-                    role="listbox"
                     tabIndex={-1}
                 >
                     {Object.entries(currenciesData).map(([code, data]) => (
@@ -71,7 +70,6 @@ const CurrencySelector = ({ expandUp = false }: CurrencySelectorProps) => {
                                 hover:text-dark_pink flex justify-between items-center 
                                 text-dark_pink font-normal font-poppins transition-colors 
                                 duration-200"
-                            role="option"
                         >
                             <span>{code} {data.symbol_native} | {data.name_plural}</span>
                         </button>
