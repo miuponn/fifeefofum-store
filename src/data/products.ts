@@ -5,7 +5,7 @@ const products: Product[] = [
         id: 'sea-creature-charm',
         name: "Sea Creature Phone Charm",
         price: "$10.00 CAD",
-        category: "Charms & Keychains",
+        category: "Phone Charms",
         thumbnail: "/images/sea-creature-charm-tn.png",
         thumbnail2: "/images/sea-creature-charm-tn1.png",
         images: [
@@ -32,6 +32,7 @@ const products: Product[] = [
         id: 'lovebirds-fruits-keychain',
         name: "Lovebird Fruits Keychain",
         price: "$12.00 CAD",
+        category: "Keychains",
         thumbnail: "/images/lovebirds-fruits-keychain-tn.png",
         thumbnail2: "/images/lovebirds-fruits-keychain-tn1.png",
         images: [
@@ -59,6 +60,7 @@ const products: Product[] = [
         id: 'pokemon-charm',
         name: "Pokémon Phone Charm",
         price: "$14.00 CAD",
+        category: "Phone Charms",
         thumbnail: "/images/pokemon-charm-tn.png",
         thumbnail2: "/images/pokemon-charm-tn1.png",
         images: [
@@ -78,6 +80,7 @@ const products: Product[] = [
         id: 'kawaii-kitty-charm',
         name: "Kawaii Kitty Phone Charm",
         price: "$13.00 CAD",
+        category: "PHone Charms",
         thumbnail: "/images/kawaii-kitty-charm-tn.png",
         thumbnail2: "/images/kawaii-kitty-charm-tn1.png",
         images: [
@@ -95,6 +98,42 @@ const products: Product[] = [
             "Please treat it gently as they are glass/ceramic beads 🌟",
         styles: ["Tuxedo", "Pink", "Pink & White", "Panda", "Orange", "Calico", "Blue" ]
     },
+    {
+        id: 'elemental-stone-necklace',
+        name: "Elemental Stone Necklace",
+        price: "24.00 CAD",
+        category: "Necklaces",
+        thumbnail: "/images/elemental-stone-necklace-tn.png",
+        thumbnail2: "/images/elemental-stone-necklace-tn1.png",
+        images: [
+            "/images/elemental-stone-necklace1.png",
+            "/images/elemental-stone-necklace2.png",
+            "/images/elemental-stone-necklace3.png",
+            "/images/elemental-stone-necklace4.png",
+            "/images/elemental-stone-necklace5.png",
+            "/images/elemental-stone-necklace6.png",
+            "/images/elemental-stone-necklace7.png",
+            "/images/elemental-stone-necklace8.png",
+            "/images/elemental-stone-necklace9.png",
+            "/images/elemental-stone-necklace10.png",
+        ],
+        description: 
+            "💠Handmade Gemstone necklaces made with stainless steel chain and natural gemstones\n\n"+
+            "💠 bead options:\n"+
+            "- Blue sodalite\n"+
+            "- Amethyst\n"+
+            "- Rose quartz\n"+
+            "- Fuchsia Stripe Agate\n"+
+            "- Green aventurine\n"+
+            "- Orange Sun stone\n"+
+            "- Blue Tiger eye\n"+
+            "- Pearls\n\n"+
+            "💠length is minimum 16.5” and can be adjusted up to 18\n"+
+            "💠will sit at collarbone to right under your collarbone\n\n"+
+            "🔹UNIQUE FOR YOU 🔹\n"+
+            "- due to the nature of the marbling on gems I use, each bracelet is slightly different and can never be replicated exactly the same!",
+        styles: ["Blue Sodalite", "Amethyst", "Rose Quartz", "Fuchsia Stripe Agate", "Green Aventurine", "Orange Sun Stone", "Blue Tiger Eye", "Pearl"]    
+    }
 ];
 
 export default products;

@@ -42,7 +42,7 @@ const CartProductSummary: FC<CartProductSummaryProps> = ({
                         Style: {item.selectedStyle}
                     </span>
                 )}
-                <p className="font-urbanist font-semibold text-pink text-xs mt-1">
+                <p className="font-urbanist font-semibold text-dark_pink_secondary text-xs mt-1">
                     ${subtotal}
                 </p>
             </div>
