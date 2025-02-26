@@ -34,7 +34,7 @@ const CartProductSummary: FC<CartProductSummaryProps> = ({
 
             {/* Product Info */}
             <div className="flex-grow">
-                <h4 className="font-urbanist font-regular text-dark_pink text-sm">
+                <h4 className="font-urbanist font-bold text-dark_pink text-sm">
                     {item.name}
                 </h4>
                 {item.selectedStyle && (

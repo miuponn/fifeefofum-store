@@ -90,7 +90,7 @@ const ProductGrid: FC<ProductGridProps> = ({
                                 price={product.price}
                                 buttonStyle="px-4 py-2 bg-transparent border border-pink text-dark_pink_secondary hover:bg-pink hover:text-white"
                                 priceStyle="text-dark_pink_secondary font-urbanist font-regular"
-                                nameStyle="text-sm md:text-md text-dark_pink font-medium font-urbanist"
+                                nameStyle="text-sm md:text-md text-dark_pink font-bold font-urbanist"
                                 nameHoverStyle="hover:underline decoration-dark_pink"
                             />
                         </motion.div>

@@ -24,40 +24,32 @@ const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange }) => {
     };
 
     return (
-        <li className="flex justify-between items-center">
-            <span className="font-poppins text-dark_pink_secondary hover:text-peach transition duration-300">
-                {label}
-            </span>
-            <div 
-                role="checkbox"
-                tabIndex={0}
-                onClick={handleCheck}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleCheck();
-                    }
-                }}
-                className="w-4 h-4 border border-button_pink rounded cursor-pointer 
-                    flex items-center justify-center transition-colors duration-300
-                    hover:border-dark_pink"
-            >
+        <li className="flex items-center gap-2 cursor-pointer" onClick={handleCheck}>
+            <div className={`w-4 h-4 border-1 rounded-sm cursor-pointer 
+                         flex items-center justify-center transition-colors duration-300
+                         ${isChecked 
+                           ? 'bg-button_pink border-button_pink' 
+                           : 'border-dark_pink hover:border-button_pink'}`
+                         }>
                 {isChecked && (
                     <svg 
-                        className="w-3 h-3 text-button_pink" 
-                        fill="none" 
-                        stroke="currentColor" 
+                        className="w-3 h-3 text-white" 
                         viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
                     >
-                        <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth="2" 
-                            d="M5 13l4 4L19 7" 
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
                         />
                     </svg>
                 )}
             </div>
+            <span className="font-poppins text-sm text-dark_pink hover:text-button_pink">
+                {label}
+            </span>
         </li>
     );
 };

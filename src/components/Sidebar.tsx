@@ -26,13 +26,20 @@ const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange }) => {
 
     return (
         <li className="flex items-center gap-2 cursor-pointer" onClick={handleChange}>
-            <div className="w-4 h-4 border border-button_pink rounded cursor-pointer 
-                          flex items-center justify-center transition-colors duration-300
-                          hover:border-dark_pink">
+            <div className={`w-4 h-4 border-2 rounded-sm cursor-pointer 
+                         flex items-center justify-center transition-colors duration-300
+                         ${isChecked 
+                           ? 'bg-button_pink border-button_pink' 
+                           : 'border-dark_pink hover:border-button_pink'}`
+                         }>
                 {isChecked && (
-                    <svg className="w-3 h-3 text-button_pink" viewBox="0 0 24 24">
+                    <svg 
+                        className="w-3 h-3 text-white" 
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                    >
                         <path
-                            fill="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="2"
@@ -41,7 +48,7 @@ const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange }) => {
                     </svg>
                 )}
             </div>
-            <span className="font-poppins font-medium uppercase text-dark_pink text-xs hover:underline">
+            <span className="font-poppins text-sm text-dark_pink hover:text-button_pink">
                 {label}
             </span>
         </li>

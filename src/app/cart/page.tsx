@@ -11,6 +11,7 @@ import MobileCartList from '@/components/Mobile/MobileCartList';
 import OrderMessage from '@/components/Cart/OrderMessage';
 import OrderSummary from '@/components/Cart/OrderSummary';
 import EmptyCart from '@/components/Cart/EmptyCart';
+import { metadata } from './metadata';
 
 const CartPage: FC = () => {
     const { getCartItemsCount, cartItems } = useCart();

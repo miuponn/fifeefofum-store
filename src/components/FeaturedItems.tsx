@@ -15,7 +15,7 @@ const FeaturedItems: FC = () => {
 
     const buttonStyle = "mt-2 sm:mt-3 px-4 sm:px-6 py-2 sm:py-3 bg-button_pink text-white font-poppins font-normal";
     const priceStyle = "text-dark_green font-urbanist font-regular"; 
-    const nameStyle = "font-urbanist text-dark_green font-medium"; 
+    const nameStyle = "font-urbanist text-dark_green font-bold"; 
     const buttonHoverStyle = "hover:bg-white hover:text-button_pink";
     const priceHoverStyle = "hover:text-peach";
     const nameHoverStyle = "hover:underline decoration-dark_green";

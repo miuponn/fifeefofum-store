@@ -8,7 +8,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import mo from '@/assets/images/mo.png';
 import AnimatedContent from '@/components/About/AnimatedContent';
-import { metadata } from './metadata';
 
 const socialLinks = [
   {
