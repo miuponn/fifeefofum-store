@@ -1,12 +1,20 @@
-import { FC } from 'react';
+'use client';
+
+import { FC, useState } from 'react';
 import Header from "@/components/Header";
 import Hero from "@/components/Hero/Hero";
 import FeaturedItems from "@/components/FeaturedItems";
 import IntroSection from "@/components/IntroSection/IntroSection";
 import Footer from "@/components/Footer";
 import products from '@/data/products';
+import ProductGrid from '@/components/ProductGrid';
+import Sidebar from '@/components/Sidebar';
 
 const HomePage: FC = () => {
+  const [sortOption, setSortOption] = useState<'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow'>('Bestselling');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedAvailability, setSelectedAvailability] = useState<string[]>([]);
+
   return (
     <div className="w-full min-h-screen flex flex-col">
       <Header />
@@ -32,7 +40,6 @@ const HomePage: FC = () => {
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );

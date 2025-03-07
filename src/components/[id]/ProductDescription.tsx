@@ -28,7 +28,7 @@ const ProductDescription: FC<ProductDescriptionProps> = ({ description }) => {
             <div className="relative"> 
                 <div
                     ref={textRef}
-                    className="whitespace-pre-line font-poppins font-medium text-button_pink"
+                    className="whitespace-pre-line font-poppins font-regular text-button_pink"
                     style={{
                         lineHeight: `${lineHeight}rem`,
                         height: isExpanded ? 'auto' : '10.5rem',

@@ -13,7 +13,7 @@ const ProductGallery: FC<ProductGalleryProps> = ({ images }) => {
     const [selectedImage, setSelectedImage] = useState<number>(0);
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const isFirstImage = selectedImage === 0;
     const isLastImage = selectedImage === images.length - 1;
@@ -46,20 +46,21 @@ const ProductGallery: FC<ProductGalleryProps> = ({ images }) => {
         }
     };
 
-    const toggleFullscreen = (): void => {
-        setIsFullscreen(!isFullscreen);
+    const openGalleryModal = (): void => {
+        setIsModalOpen(true);
     };
 
     return (
         <div className="flex flex-col gap-4">
             {/* Main Image Container */}
             <div 
-                className="w-full aspect-square overflow-hidden relative rounded-lg"
+                className="w-full aspect-square overflow-hidden relative rounded-lg cursor-pointer"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={() => setTouchStart(null)}
+                onClick={openGalleryModal}
             >
                 {/* desktop nav arrows */}
                 <AnimatePresence>
@@ -104,7 +105,6 @@ const ProductGallery: FC<ProductGalleryProps> = ({ images }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        onClick={toggleFullscreen}
                     >
                         <Image
                             src={images[selectedImage]}
@@ -167,13 +167,13 @@ const ProductGallery: FC<ProductGalleryProps> = ({ images }) => {
 
             {/* fullscreen modal */}
             <AnimatePresence>
-                {isFullscreen && (
+                {isModalOpen && (
                     <motion.div
                         className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={toggleFullscreen}
+                        onClick={() => setIsModalOpen(false)}
                     >
                         <motion.div
                             className="relative max-h-[90vh] max-w-[90vw] aspect-square"

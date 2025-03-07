@@ -1,52 +1,103 @@
 'use client';
 
-import { FC, useState, ChangeEvent, useMemo } from 'react';
+import { FC, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from './ProductCard';
 import productsData from '@/data/products';
+import { isVariantInStock } from '@/data/inventory';
 import type { Product } from '@/types/product';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 interface ProductGridProps {
     backgroundColor: string;
     sortOption: 'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow';
     onSortChange: (value: 'Bestselling' | 'Alphabetical' | 'PriceLowHigh' | 'PriceHighLow') => void;
+    categoryFilters: string[];
+    availabilityFilters: string[];
 }
 
 const ProductGrid: FC<ProductGridProps> = ({ 
     backgroundColor, 
     sortOption,
-    onSortChange 
+    onSortChange,
+    categoryFilters,
+    availabilityFilters
 }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     
     const productsPerPage = 16;
-    const totalPages = Math.ceil(productsData.length / productsPerPage);
 
-    const sortedProducts = useMemo(() => {
-        const products = [...productsData];
+    const filteredAndSortedProducts = useMemo(() => {
+        // start w/ all products
+        let filtered = [...productsData];
+        
+        // apply category filter if any
+        if (categoryFilters.length > 0) {
+            filtered = filtered.filter(product => 
+                product.category && categoryFilters.includes(product.category)
+            );
+        }
+        
+        // apply availability filter if any
+        if (availabilityFilters.includes("In Stock")) {
+            // filter to show products that are in stock
+            filtered = filtered.filter(product => {
+                // if product has style variants, check if any variant is in stock
+                if (product.styles && product.styles.length > 0) {
+                    return product.styles.some(style => 
+                        isVariantInStock(product.id || '', style)
+                    );
+                } 
+                // if product has no styles, consider the product itself as in stock
+                return isVariantInStock(product.id || '', 'default');
+            });
+        } else if (availabilityFilters.includes("Out of Stock")) {
+            // filter to show products that are out of stock
+            filtered = filtered.filter(product => {
+                // if product has style variants, check if all variants are out of stock
+                if (product.styles && product.styles.length > 0) {
+                    return product.styles.every(style => 
+                        !isVariantInStock(product.id || '', style)
+                    );
+                }
+                // if product has no styles, consider the product itself as out of stock
+                return !isVariantInStock(product.id || '', 'default');
+            });
+        }
+        
+        // apply sorting
         switch (sortOption) {
             case 'Alphabetical':
-                return products.sort((a, b) => a.name.localeCompare(b.name));
+                return filtered.sort((a, b) => a.name.localeCompare(b.name));
             case 'PriceLowHigh':
-                return products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                return filtered.sort((a, b) => 
+                    parseFloat(a.price.replace(/[^0-9.]/g, '')) - 
+                    parseFloat(b.price.replace(/[^0-9.]/g, ''))
+                );
             case 'PriceHighLow':
-                return products.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                return filtered.sort((a, b) => 
+                    parseFloat(b.price.replace(/[^0-9.]/g, '')) - 
+                    parseFloat(a.price.replace(/[^0-9.]/g, ''))
+                );
             default:
-                return products; // Bestselling (default order)
+                return filtered; // bstselling (default order)
         }
-    }, [sortOption]);
+    }, [sortOption, categoryFilters, availabilityFilters]);
 
-    const displayedProducts = sortedProducts.slice(
+    const displayedProducts = filteredAndSortedProducts.slice(
         (currentPage - 1) * productsPerPage,
         currentPage * productsPerPage
     );
+
+    // dynamically calculate total pages based on filtered products
+    const totalPages = Math.max(1, Math.ceil(filteredAndSortedProducts.length / productsPerPage));
 
     return (
         <section className="w-full flex flex-col" style={{ backgroundColor }}>
             {/* sorting options - hidden on mobile */}
             <div className="hidden md:flex justify-between items-center px-4 sm:px-6 md:px-8 py-3">
                 <span className="text-sm text-dark_pink_secondary">
-                    {productsData.length} Products
+                    {filteredAndSortedProducts.length} Products
                 </span>
 
                 <div className="flex items-center gap-6">
@@ -99,29 +150,63 @@ const ProductGrid: FC<ProductGridProps> = ({
             </AnimatePresence>
 
             {/* Pagination */}
-            <div className="flex justify-center items-center gap-4 mt-6 md:mt-8">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                    <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`font-poppins font-medium text-xs sm:text-sm md:text-base ${
-                            currentPage === pageNum 
-                            ? 'text-pink underline' 
-                            : 'text-pink hover:underline'
-                        }`}
-                    >
-                        {pageNum}
-                    </button>
-                ))}
-                {currentPage < totalPages && (
-                    <button
-                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                        className="font-poppins font-medium text-pink hover:underline flex items-center gap-1 text-xs sm:text-sm md:text-base"
-                    >
-                        Next <span className="text-pink">&gt;</span>
-                    </button>
-                )}
-            </div>
+            {filteredAndSortedProducts.length > 0 && (
+                <div className="flex justify-center mt-8">
+                    <nav className="flex justify-center items-center gap-2">
+                        {/* prev page button */}
+                        <button
+                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                            className="w-8 h-8 flex items-center justify-center"
+                            disabled={currentPage === 1}
+                        >
+                            <FiChevronLeft 
+                                className={`${
+                                    currentPage === 1 
+                                    ? 'text-peach cursor-not-allowed' 
+                                    : 'text-button_pink hover:text-peach hover:scale-125 transition-all duration-200'
+                                } w-5 h-5`} 
+                            />
+                        </button>
+
+                        {/* Page nums - using dynamic totalPages */}
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                            <button
+                                key={page}
+                                onClick={() => setCurrentPage(page)}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center 
+                                    text-dark_pink transition-all duration-300
+                                    ${currentPage === page
+                                        ? 'font-medium text-peach underline decoration-2 underline-offset-4 decoration-peach' 
+                                        : 'hover:underline hover:decoration-button_pink hover:decoration-2 hover:underline-offset-4'
+                                    }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+
+                        {/* Next page button */}
+                        <button
+                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                            className="w-8 h-8 flex items-center justify-center"
+                            disabled={currentPage === totalPages}
+                        >
+                            <FiChevronRight 
+                                className={`${
+                                    currentPage === totalPages 
+                                    ? 'text-peach cursor-not-allowed' 
+                                    : 'text-button_pink hover:text-peach hover:scale-125 transition-all duration-200'
+                                } w-5 h-5`} 
+                            />
+                        </button>
+                    </nav>
+                </div>
+            )}
+
+            {filteredAndSortedProducts.length === 0 && (
+                <div className="text-center py-10">
+                    <p className="text-dark_pink">No products match your current filters.</p>
+                </div>
+            )}
         </section>
     );
 };

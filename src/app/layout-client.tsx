@@ -3,8 +3,6 @@
 import { CartProvider } from '@/context/CartContext';
 import CartSideBar from '@/components/Cart/CartSideBar';
 import MobileHeader from '@/components/Mobile/MobileHeader';
-import FilterSidebar from '@/components/Mobile/FilterSidebar';
-import HamburgerMenu from '@/components/Mobile/HamburgerMenu';
 
 export default function ClientLayout({
   children,
@@ -14,14 +12,9 @@ export default function ClientLayout({
   return (
     <CartProvider>
       <div className="relative">
-        {/* Mobile nav elements */}
+        {/* Mobile nav elements - only include MobileHeader here */}
         <div className="md:hidden">
           <MobileHeader />
-          <HamburgerMenu />
-          <FilterSidebar 
-            isOpen={false} 
-            closeFilter={() => {}} 
-          />
         </div>
 
         {/* Main Content */}

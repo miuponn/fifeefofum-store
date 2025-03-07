@@ -82,7 +82,7 @@ const products: Product[] = [
         id: 'kawaii-kitty-charm',
         name: "Kawaii Kitty Phone Charm",
         price: "$13.00 CAD",
-        category: "PHone Charms",
+        category: "Phone Charms",
         thumbnail: "/images/kawaii-kitty-charm-tn.png",
         thumbnail2: "/images/kawaii-kitty-charm-tn1.png",
         images: [
@@ -101,10 +101,29 @@ const products: Product[] = [
         styles: ["Tuxedo", "Pink", "Pink & White", "Panda", "Orange", "Calico", "Blue" ]
     },
     {
+        id: 'kawaii-bunny-charm',
+        name: "Kawaii Bunny Phone Charm",
+        price: "$15.00 CAD",
+        category: "Phone Charms",
+        thumbnail: "/images/kawaii-bunny-charm-tn.png",
+        thumbnail2: "/images/kawaii-bunny-charm-tn1.png",
+        images: [
+            "/images/kawaii-bunny-charm1.png",
+            "/images/kawaii-bunny-charm2.png",
+            "/images/kawaii-bunny-charm3.png",
+            "/images/kawaii-bunny-charm4.png",
+        ],
+        description: 
+            "🐰 Adorable bunny phone charm made with ceramic cat and glass beads 🐰\n\n" +
+            "Can be used as a phone charm, bag charm, on any thing :)\n\n" +
+            "Please treat it gently as they are glass/ceramic beads 🌟",
+        styles: ["Light Green", "Dark Green", "Pink", "Red", "Purple", "Yellow", "Grey", "Black", "White"],
+    },
+    {
         id: 'elemental-stone-necklace',
         name: "Elemental Stone Necklace",
-        price: "24.00 CAD",
-        category: "Necklaces",
+        price: "$24.00 CAD",
+        category: "Jewelry",
         thumbnail: "/images/elemental-stone-necklace-tn.png",
         thumbnail2: "/images/elemental-stone-necklace-tn1.png",
         images: [
@@ -225,7 +244,7 @@ const products: Product[] = [
         id: "glass-wrap-ring",
         name: "Glass Wrap Ring",
         price: "$12.00 CAD",
-        category: "Rings",
+        category: "Jewelry",
         thumbnail: "/images/glass-wrap-ring-tn.png",
         thumbnail2: "/images/glass-wrap-ring-tn1.png",
         images: [
@@ -318,7 +337,7 @@ const products: Product[] = [
         id: "elemental-stone-bracelet",
         name: "Elemental Stone Bracelet",
         price: "$12.00 CAD",
-        category: "Bracelets",
+        category: "Jewelry",
         thumbnail: "/images/elemental-stone-bracelet-tn.png",
         thumbnail2: "/images/elemental-stone-bracelet-tn1.png",
         images: [
@@ -347,7 +366,7 @@ const products: Product[] = [
         id: "elemental-stone-ring",
         name: "Elemental Stone Ring",
         price: "$10.00 CAD",
-        category: "Rings",
+        category: "Jewelry",
         thumbnail: "/images/elemental-stone-ring-tn.png",
         thumbnail2: "/images/elemental-stone-ring-tn1.png",
         images: [

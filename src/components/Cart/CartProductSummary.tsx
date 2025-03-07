@@ -37,9 +37,9 @@ const CartProductSummary: FC<CartProductSummaryProps> = ({
                 <h4 className="font-urbanist font-bold text-dark_pink text-sm">
                     {item.name}
                 </h4>
-                {item.selectedStyle && (
+                {item.variant && (
                     <span className="text-xs text-dark_pink_secondary mt-1 block">
-                        Style: {item.selectedStyle}
+                        Style: {item.variant}
                     </span>
                 )}
                 <p className="font-urbanist font-semibold text-dark_pink_secondary text-xs mt-1">

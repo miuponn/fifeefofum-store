@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ProductCard from '@/components/ProductCard';
@@ -13,17 +13,83 @@ interface RecommendedItemsProps {
     currentProductId: string;
 }
 
+interface ProductSimilarity {
+    product: Product;
+    similarityScore: number;
+}
+
 const RecommendedItems: FC<RecommendedItemsProps> = ({ products, currentProductId }) => {
-    const buttonStyle = "mt-2 sm:mt-3 px-4 sm:px-6 py-2 sm:py-3 border border-dark_pink text-dark_pink font-poppins text-xs sm:text-sm md:text-lg font-normal hover:bg-dark_pink hover:text-white";
+    const buttonStyle = "mt-2 sm:mt-3 px-4 sm:px-6 py-2 sm:py-3 border border-dark_pink text-dark_pink font-poppins text-xs sm:text-sm md:text-lg font-normal hover:text-white hover:border-pink";
     const priceStyle = "text-xs sm:text-sm md:text-md text-dark_pink font-urbanist font-semibold";
     const nameStyle = "text-sm sm:text-base md:text-lg font-urbanist text-dark_pink font-bold";
     const nameHoverStyle = "hover:underline decoration-button_pink";
 
-    // Filter out current product and get random 4 products
-    const recommendedProducts = products
-        .filter(product => product.id !== currentProductId)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 4);
+    // get current product details
+    const currentProduct = useMemo(() => 
+        products.find(product => product.id === currentProductId),
+        [products, currentProductId]
+    );
+
+    // recommended products based on similarity
+    const recommendedProducts = useMemo(() => {
+        if (!currentProduct) return [];
+
+        const otherProducts = products.filter(product => product.id !== currentProductId);
+        
+        // calculate similarity score for each product
+        const similarityScores: ProductSimilarity[] = otherProducts.map(product => {
+            let score = 0;
+            
+            // 1. same category: highest priority (+10 points)
+            if (product.category === currentProduct.category) {
+                score += 10;
+            }
+            
+            // 2. price similarity: closer prices get higher scores (max +5 points)
+            const currentPrice = parseFloat(currentProduct.price.replace(/[^0-9.]/g, ''));
+            const otherPrice = parseFloat(product.price.replace(/[^0-9.]/g, ''));
+            const priceDiff = Math.abs(currentPrice - otherPrice);
+            
+            // if price difference is <$5 give high score
+            // score decreases as price difference increases
+            if (priceDiff < 5) {
+                score += 5;
+            } else if (priceDiff < 10) {
+                score += 3;
+            } else if (priceDiff < 20) {
+                score += 1;
+            }
+            
+            // 3. similar styles (if any), check for overlapping styles (+3 points per match)
+            if (currentProduct.styles && product.styles) {
+                const commonStyles = currentProduct.styles.filter(style => 
+                    product.styles?.includes(style)
+                );
+                score += commonStyles.length * 3;
+            }
+            
+            // 4. name similarity: check for common keywords (+2 points per match)
+            const currentProductWords = currentProduct.name.toLowerCase().split(/\s+/);
+            const otherProductWords = product.name.toLowerCase().split(/\s+/);
+            
+            const commonWords = currentProductWords.filter(word => 
+                word.length > 3 && otherProductWords.includes(word)
+            );
+            
+            score += commonWords.length * 2;
+            
+            return {
+                product,
+                similarityScore: score
+            };
+        });
+        
+        // sort by similarity score (highest first) and take top 4
+        return similarityScores
+            .sort((a, b) => b.similarityScore - a.similarityScore)
+            .slice(0, 4)
+            .map(item => item.product);
+    }, [currentProduct, currentProductId, products]);
 
     if (recommendedProducts.length === 0) return null;
 

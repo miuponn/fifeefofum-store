@@ -2,7 +2,7 @@ import { Product } from "./product";
 
 export interface CartItem extends Product {
     quantity: number;
-    selectedStyle?: string;
+    variant?: string;
 }
 
 export interface Styles {

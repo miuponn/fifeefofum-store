@@ -1,30 +1,41 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { FiUser, FiShoppingBag, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
+import productsData from '@/data/products';
 
 interface CategoryItem {
     name: string;
     path: string;
 }
 
-const SHOP_CATEGORIES: CategoryItem[] = [
-    { name: "Bracelets", path: "/products/bracelets" },
-    { name: "Charms & Keychains", path: "/products/charms-keychains" },
-    { name: "Rings", path: "/products/rings" },
-    { name: "Necklaces", path: "/products/necklaces" },
-    { name: "Stickers", path: "/products/stickers" },
-];
-
 const NavLinks = () => {
     const [isShopOpen, setIsShopOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
+    const router = useRouter();
     const { setIsCartOpen, getCartItemsCount } = useCart();
     const itemsCount = getCartItemsCount();
+
+    // Dynamically generate unique categories from products
+    const categories = useMemo(() => {
+        // Filter out undefined categories first, then create the Set
+        const uniqueCategories = [...new Set(
+            productsData
+                .map(product => product.category)
+                .filter((category): category is string => category !== undefined)
+        )];
+        
+        return uniqueCategories
+            .sort() // Sort alphabetically
+            .map(category => ({
+                name: category,
+                path: `/products?category=${encodeURIComponent(category)}`,
+            }));
+    }, []);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -42,6 +53,12 @@ const NavLinks = () => {
     useEffect(() => {
         setIsShopOpen(false);
     }, [pathname]);
+
+    const handleCategoryClick = (category: string) => {
+        setIsShopOpen(false);
+        // Navigate to products page with category filter applied
+        router.push(`/products?category=${encodeURIComponent(category)}`);
+    };
 
     return (
         <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 lg:space-x-4 xl:space-x-5 text-dark_pink_secondary font-normal font-poppins text-xs sm:text-sm md:text-base">
@@ -86,7 +103,7 @@ const NavLinks = () => {
                                 Shop All
                             </li>
                         </Link>
-                        {SHOP_CATEGORIES.map((category) => (
+                        {categories.map((category) => (
                             <Link 
                                 key={category.name}
                                 href={category.path}

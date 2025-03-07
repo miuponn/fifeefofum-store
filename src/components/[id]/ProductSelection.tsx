@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/types/product';
+import { isVariantInStock, getVariantQuantity } from '@/data/inventory';
 
 interface ProductSelectionProps {
     id: string;
@@ -50,7 +51,7 @@ const ProductSelection: FC<ProductSelectionProps> = ({
     return (
         <div className="flex flex-col gap-4 md:gap-8">
             {/* Desktop Breadcrumb */}
-            <nav className="hidden md:block text-sm font-poppins font-light text-dark_pink">
+            <nav className="hidden md:block text-sm font-poppins font-regular text-dark_pink">
                 <Link 
                     href="/" 
                     className="hover:underline text-[#AF001A]"
@@ -113,19 +114,28 @@ const ProductSelection: FC<ProductSelectionProps> = ({
                     Style
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                    {variants.map((variant, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setSelectedVariant(index)}
-                            className={`inline-flex px-4 py-2.5 rounded-full text-xs font-poppins 
-                                uppercase transition-all whitespace-nowrap font-medium
-                                ${selectedVariant === index 
-                                    ? 'bg-dark_pink text-white border border-dark_pink' 
-                                    : 'bg-transparent text-button-pink border border-dark_pink hover:bg-dark_pink hover:text-white'}`}
-                        >
-                            {variant}
-                        </button>
-                    ))}
+                    {variants.map((variant, index) => {
+                        const inStock = isVariantInStock(id, variant);
+                        const quantity = getVariantQuantity(id, variant);
+                        
+                        return (
+                            <button
+                                key={index}
+                                onClick={() => setSelectedVariant(index)}
+                                disabled={!inStock}
+                                className={`inline-flex px-4 py-2.5 rounded-full text-xs font-poppins 
+                                    uppercase transition-all whitespace-nowrap font-medium
+                                    ${selectedVariant === index 
+                                        ? 'bg-dark_pink text-white border border-dark_pink' 
+                                        : `bg-transparent text-button-pink border border-dark_pink ${inStock ? 'hover:bg-dark_pink hover:text-white' : ''}`}
+                                    ${!inStock ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {variant}
+                                {!inStock && " (Out of Stock)"}
+                                {inStock && quantity <= 3 && ` (${quantity} left)`}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 

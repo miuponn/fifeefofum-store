@@ -7,13 +7,11 @@ import AnnouncementBar from "./Header/AnnouncementBar";
 import CurrencySelector from "./Header/CurrencySelector"; 
 import SearchBar from "./Header/SearchBar";
 import NavLinks from "./Header/NavLinks";
-import MobileHeader from './Mobile/MobileHeader';
 import logoSvg from '@/assets/images/Fifeefofum.svg';
 
 const Header: FC = () => {
     return (
         <>
-            <MobileHeader />
             <header className="hidden md:block w-full relative z-50">
                 <AnnouncementBar message="Fun message or important notification goes here!" />
 

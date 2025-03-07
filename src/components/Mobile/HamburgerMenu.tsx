@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useState, useMemo } from 'react'; // Add useMemo
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -8,6 +8,7 @@ import { FiMenu, FiX, FiUser, FiInstagram, FiPlus, FiMinus } from 'react-icons/f
 import { SiTiktok } from 'react-icons/si';
 import CurrencySelector from '@/components/Header/CurrencySelector';
 import etsyIcon from '@/assets/images/etsy.svg';
+import productsData from '@/data/products'; // Import products data
 
 interface SocialLink {
     name: string;
@@ -15,14 +16,10 @@ interface SocialLink {
     icon: React.ReactNode;
 }
 
-const SHOP_CATEGORIES = [
-    { name: "Shop All", path: "/products" },
-    { name: "Bracelets", path: "/products/bracelets" },
-    { name: "Keychains", path: "/products/keychains" },
-    { name: "Rings", path: "/products/rings" },
-    { name: "Necklaces", path: "/products/necklaces" },
-    { name: "Stickers", path: "/products/stickers" }
-];
+interface CategoryItem {
+    name: string;
+    path: string;
+}
 
 const NAV_ROUTES = ["about", "faqs", "contact"];
 
@@ -34,6 +31,31 @@ const HamburgerMenu: FC = () => {
     const toggleMenu = (): void => setIsOpen(!isOpen);
     const toggleShop = (): void => setIsShopOpen(!isShopOpen);
 
+    // Dynamically generate categories from products - same as desktop version
+    const categories = useMemo(() => {
+        // Filter out undefined categories first, then create the Set
+        const uniqueCategories = [...new Set(
+            productsData
+                .map(product => product.category)
+                .filter((category): category is string => category !== undefined)
+        )];
+        
+        // Create category items from unique categories
+        const categoryItems: CategoryItem[] = uniqueCategories
+            .sort() // Sort alphabetically
+            .map(category => ({
+                name: category,
+                path: `/products?category=${encodeURIComponent(category)}`,
+            }));
+        
+        // Add "Shop All" at the beginning
+        return [
+            { name: "Shop All", path: "/products" },
+            ...categoryItems
+        ];
+    }, []);
+
+    // Rest of the component remains the same
     const socialLinks: SocialLink[] = [
         {
             name: 'Instagram',
@@ -53,7 +75,7 @@ const HamburgerMenu: FC = () => {
                 alt="Etsy" 
                 width={20}
                 height={20}
-                className="h-5 w-5"
+                className="h-5 w-5 brightness-0 invert opacity-80 filter hue-rotate-[330deg] saturate-[75%]"
                 priority={false}
             />
         }
@@ -93,7 +115,7 @@ const HamburgerMenu: FC = () => {
                             </Link>
                         </li>
                         
-                        {/* Shop Dropdown */}
+                        {/* Shop Dropdown - updated to use dynamic categories */}
                         <li>
                             <button
                                 onClick={toggleShop}
@@ -107,14 +129,14 @@ const HamburgerMenu: FC = () => {
                                 )}
                             </button>
                             
-                            {/* Shop Submenu */}
+                            {/* Shop Submenu with dynamic categories */}
                             {isShopOpen && (
                                 <ul className="pl-4 mt-2 space-y-2">
-                                    {SHOP_CATEGORIES.map((category) => (
-                                        <li key={category.name} className="bg-[#FFF7F7] rounded-md">
+                                    {categories.map((category) => (
+                                        <li key={category.name}>
                                             <Link
                                                 href={category.path}
-                                                className={`block px-4 py-2 text-dark_pink_secondary hover:text-peach transition duration-300 ${
+                                                className={`block px-4 py-2 text-dark_pink_secondary hover:text-peach hover:bg-[#FFF7F7] hover:rounded-md transition duration-300 ${
                                                     pathname === category.path ? 'text-peach' : ''
                                                 }`}
                                                 onClick={toggleMenu}

@@ -12,6 +12,7 @@ import ProductReviews from '@/components/[id]/ProductReviews';
 import RecommendedItems from '@/components/[id]/RecommendedItems';
 import productsData from '@/data/products';
 import type { Product } from '@/types/product';
+import Script from 'next/script';
 
 interface LocationState {
     from?: string;
@@ -103,6 +104,35 @@ const ProductDetailsPage: FC = () => {
                     </div>
                 </section>
             </main>
+
+            {product && (
+                <Script
+                    id={`product-schema-${product.id}`}
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org/",
+                            "@type": "Product",
+                            "name": product.name,
+                            "description": product.description || `${product.name} by Fifeefofum`,
+                            "image": product.images?.[0] || product.thumbnail,
+                            "sku": product.id,
+                            "brand": {
+                                "@type": "Brand",
+                                "name": "Fifeefofum"
+                            },
+                            "offers": {
+                                "@type": "Offer",
+                                "url": `https://fifeefofum.com/products/${product.id}`,
+                                "price": product.price.replace(/[^0-9.]/g, ''),
+                                "priceCurrency": "CAD",
+                                "availability": "https://schema.org/InStock",
+                                "itemCondition": "https://schema.org/NewCondition"
+                            }
+                        })
+                    }}
+                />
+            )}
 
             <Footer />
         </div>

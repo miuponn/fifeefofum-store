@@ -8,20 +8,25 @@ import lovebirdsImage from '@/assets/images/lovebirds.png';
 
 interface SidebarProps {
     backgroundColor?: string;
+    onCategoryFilter: (categories: string[]) => void;
+    onAvailabilityFilter: (availability: string[]) => void;
+    categoryFilters?: string[]; // Add this prop
+    availabilityFilters?: string[]; // Add this prop
 }
 
 interface CustomCheckboxProps {
     label: string;
-    onChange?: (checked: boolean) => void;
+    onChange: (label: string, checked: boolean) => void;
+    initialChecked?: boolean;
 }
 
-const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange }) => {
-    const [isChecked, setIsChecked] = useState<boolean>(false);
+const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange, initialChecked = false }) => {
+    const [isChecked, setIsChecked] = useState<boolean>(initialChecked);
 
     const handleChange = (): void => {
         const newChecked = !isChecked;
         setIsChecked(newChecked);
-        onChange?.(newChecked);
+        onChange(label, newChecked);
     };
 
     return (
@@ -55,12 +60,34 @@ const CustomCheckbox: FC<CustomCheckboxProps> = ({ label, onChange }) => {
     );
 };
 
-const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
+const Sidebar: FC<SidebarProps> = ({ 
+    backgroundColor = "white", 
+    onCategoryFilter, 
+    onAvailabilityFilter,
+    categoryFilters = [], 
+    availabilityFilters = [] 
+}) => {
     const [categoryOpen, setCategoryOpen] = useState<boolean>(true);
     const [availabilityOpen, setAvailabilityOpen] = useState<boolean>(true);
-
+    
     const categories = ["Phone Charms", "Stickers", "Keychains", "Jewelry", "Accessories"];
     const availabilityOptions = ["In Stock", "Out of Stock"];
+
+    const handleCategoryChange = (category: string, isChecked: boolean) => {
+        const newSelectedCategories = isChecked 
+            ? [...categoryFilters, category] 
+            : categoryFilters.filter(c => c !== category);
+        
+        onCategoryFilter(newSelectedCategories);
+    };
+
+    const handleAvailabilityChange = (status: string, isChecked: boolean) => {
+        const newSelectedAvailability = isChecked 
+            ? [...availabilityFilters, status] 
+            : availabilityFilters.filter(s => s !== status);
+        
+        onAvailabilityFilter(newSelectedAvailability);
+    };
 
     return (
         <aside className={`bg-${backgroundColor} p-4 rounded-lg`}>
@@ -69,7 +96,7 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
                     Products
                 </h2>
 
-                <nav className="text-sm font-poppins font-light text-dark_pink mb-6">
+                <nav className="text-sm font-poppins font-regular text-dark_pink mb-6">
                     <Link href="/" className="hover:underline text-[#AF001A]">Home</Link>
                     <span className="text-red-500 mx-3">&gt;</span>
                     <span className="text-dark_pink">Products</span>
@@ -92,7 +119,12 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
                         <div className={`transform transition-all duration-300 ease-in-out overflow-hidden ${categoryOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                             <ul className="mt-2 mb-6 space-y-2">
                                 {categories.map((category) => (
-                                    <CustomCheckbox key={category} label={category} />
+                                    <CustomCheckbox 
+                                        key={category} 
+                                        label={category} 
+                                        onChange={handleCategoryChange}
+                                        initialChecked={categoryFilters.includes(category)} // Add this
+                                    />
                                 ))}
                             </ul>
                         </div>
@@ -110,7 +142,12 @@ const Sidebar: FC<SidebarProps> = ({ backgroundColor = "white" }) => {
                         <div className={`transform transition-all duration-300 ease-in-out overflow-hidden ${availabilityOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                             <ul className="mt-2 mb-6 space-y-2">
                                 {availabilityOptions.map((status) => (
-                                    <CustomCheckbox key={status} label={status} />
+                                    <CustomCheckbox 
+                                        key={status} 
+                                        label={status} 
+                                        onChange={handleAvailabilityChange}
+                                        initialChecked={availabilityFilters.includes(status)} // Add this
+                                    />
                                 ))}
                             </ul>
                         </div>
