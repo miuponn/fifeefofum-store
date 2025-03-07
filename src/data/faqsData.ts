@@ -9,7 +9,7 @@ export const faqsData: FAQ[] = [
     {
         id: 2,
         question: "How much is the shipping fee and which courier will you use?",
-        answer: "Orders are mailed out via Canada Post and total shipping is calclated at checkout. Buyer is responsible for any customs and import taxes that may apply."
+        answer: "Orders are mailed out via Canada Post and total shipping is calclated at checkout. We are not responsible for any additional customs and import taxes that may apply."
     },
     {
         id: 3,

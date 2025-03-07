@@ -30,7 +30,7 @@ const Hero: FC<HeroProps> = ({ images = [] }) => {
                             alt="Fifeefofum Logo"
                             fill
                             priority
-                            sizes="(max-width: 640px) 40vw, (max-width: 768px) 35vw, 30vw"
+                            sizes="(max-width: 640px) 40vw, (max-width: 768px) 40vw, 40vw"
                             className="object-contain"
                             quality={90}
                         />
