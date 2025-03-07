@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 
 export const siteConfig = {
   name: 'Fifeefofum',
@@ -38,4 +38,10 @@ export const metadata: Metadata = {
   other: {
     'msapplication-TileColor': '#da532c',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  themeColor: '#ffffff'
 };

@@ -1,14 +1,8 @@
-'use client';
-
-import { FC } from 'react';
 import { Metadata, Viewport } from 'next';
 import '../styles/globals.css';
-import { CartProvider } from '@/context/CartContext';
-import CartSideBar from '@/components/Cart/CartSideBar';
-import MobileHeader from '@/components/Mobile/MobileHeader';
-import FilterSidebar from '@/components/Mobile/FilterSidebar';
-import HamburgerMenu from '@/components/Mobile/HamburgerMenu';
 import { Urbanist } from 'next/font/google';
+import { Suspense } from 'react';
+import ClientLayout from './layout-client';
 
 const urbanist = Urbanist({
   subsets: ['latin'],
@@ -16,6 +10,11 @@ const urbanist = Urbanist({
   display: 'swap',
   variable: '--font-urbanist',
 });
+
+export const metadata: Metadata = {
+  title: 'Fifeefofum Store',
+  description: 'Handmade accessories and gifts',
+};
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -31,25 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={urbanist.variable}>
       <body>
-        <CartProvider>
-          <div className="relative">
-            {/* Mobile nav elements */}
-            <div className="md:hidden">
-              <MobileHeader />
-              <HamburgerMenu />
-              <FilterSidebar 
-                isOpen={false} 
-                closeFilter={() => {}} 
-              />
-            </div>
-
-            {/* Main Content */}
+        <Suspense fallback={<div>Loading...</div>}>
+          <ClientLayout>
             {children}
-
-            {/* Global Overlays */}
-            <CartSideBar />
-          </div>
-        </CartProvider>
+          </ClientLayout>
+        </Suspense>
       </body>
     </html>
   );

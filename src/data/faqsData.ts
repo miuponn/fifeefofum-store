@@ -9,12 +9,12 @@ export const faqsData: FAQ[] = [
     {
         id: 2,
         question: "How much is the shipping fee and which courier will you use?",
-        answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        answer: "Orders are mailed out via Canada Post and total shipping is calclated at checkout. Buyer is responsible for any customs and import taxes that may apply."
     },
     {
         id: 3,
         question: "When will I receive my order?",
-        answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        answer: "Orders are mailed out in 3-5 business days after processing and typically arrive in 1-2 weeks."
     },
     {
         id: 4,
