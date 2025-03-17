@@ -46,8 +46,8 @@ const RecommendedItems: FC<RecommendedItemsProps> = ({ products, currentProductI
             }
             
             // 2. price similarity: closer prices get higher scores (max +5 points)
-            const currentPrice = parseFloat(currentProduct.price.replace(/[^0-9.]/g, ''));
-            const otherPrice = parseFloat(product.price.replace(/[^0-9.]/g, ''));
+            const currentPrice = currentProduct.price
+            const otherPrice = product.price
             const priceDiff = Math.abs(currentPrice - otherPrice);
             
             // if price difference is <$5 give high score

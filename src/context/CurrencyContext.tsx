@@ -11,7 +11,10 @@ interface CurrencyContextType {
     setCurrency: (code: CurrencyCode) => void;
     formatPrice: (amount: number) => string;
     convertPrice: (amount: number, fromCurrency?: CurrencyCode) => number;
+    convertProductPrice: (amount: number) => number;
     isLoading: boolean;
+    getCurrencyCode: () => string;
+    getNativeSymbol: () => string;
 }
 
 const CurrencyContext = createContext<CurrencyContextType>({
@@ -20,6 +23,9 @@ const CurrencyContext = createContext<CurrencyContextType>({
     formatPrice: () => '',
     convertPrice: () => 0,
     isLoading: true,
+    getCurrencyCode: () => '',
+    getNativeSymbol: () => '',
+    convertProductPrice: () => 0,
 });
 
 export const CurrencyProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
@@ -65,6 +71,10 @@ export const CurrencyProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }).format(convertedAmount);
     };
 
+    const getCurrencyCode = () => currency;
+    const getNativeSymbol = () => currenciesData[currency].symbol_native;
+    const convertProductPrice = (amount: number) => convertPrice(amount);
+
     return (
         <CurrencyContext.Provider value={{
             currency,
@@ -72,6 +82,9 @@ export const CurrencyProvider: React.FC<{children: React.ReactNode}> = ({ childr
             formatPrice,
             convertPrice,
             isLoading,
+            getCurrencyCode,
+            getNativeSymbol,
+            convertProductPrice,
         }}>
             {children}
         </CurrencyContext.Provider>

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import currenciesData from '@/data/currencies.json';
+import { useCurrency } from '@/context/CurrencyContext';
 
 type CurrencyCode = keyof typeof currenciesData;
 
@@ -10,17 +11,15 @@ interface CurrencySelectorProps {
     expandUp?: boolean;
 }
 
-const INITIAL_CURRENCY = "CAD" as CurrencyCode;
-
 const CurrencySelector = ({ expandUp = false }: CurrencySelectorProps) => {
-    const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>(INITIAL_CURRENCY);
+    const { currency, setCurrency, isLoading } = useCurrency();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const toggleDropdown = (): void => setIsOpen(!isOpen);
 
     const handleSelect = (currencyCode: CurrencyCode): void => {
-        setSelectedCurrency(currencyCode);
+        setCurrency(currencyCode);
         setIsOpen(false);
     };
 
@@ -35,7 +34,7 @@ const CurrencySelector = ({ expandUp = false }: CurrencySelectorProps) => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const currentCurrency = currenciesData[selectedCurrency];
+    const currentCurrency = currenciesData[currency];
 
     return (
         <div ref={dropdownRef} className="relative inline-block text-left">
@@ -45,9 +44,10 @@ const CurrencySelector = ({ expandUp = false }: CurrencySelectorProps) => {
                 className="px-4 py-2 bg-white flex items-center justify-between w-28
                     text-dark_pink font-medium transition-all duration-300 ease-in-out
                     hover:scale-105 hover:underline hover:text-dark_pink font-poppins"
+                disabled={isLoading}
             >
-                <span className="sr-only">Selected currency: {selectedCurrency}</span>
-                <span>{selectedCurrency} {currentCurrency?.symbol_native}</span>
+                <span className="sr-only">Selected currency: {currency}</span>
+                <span>{isLoading ? 'Loading...' : `${currency} ${currentCurrency?.symbol_native}`}</span>
                 {isOpen ? (
                     <FiChevronUp className="ml-2 text-button_pink transition-transform duration-300 ease-in-out" />
                 ) : (

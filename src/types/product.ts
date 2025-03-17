@@ -1,7 +1,7 @@
 export interface Product {
     id: string;
     name: string;
-    price: string;
+    price: number;
     category?: string;
     thumbnail: string;
     thumbnail2?: string;
@@ -11,4 +11,3 @@ export interface Product {
     styles?: string[];
     quantity?: number;
   }
-  

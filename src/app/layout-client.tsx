@@ -3,6 +3,7 @@
 import { CartProvider } from '@/context/CartContext';
 import CartSideBar from '@/components/Cart/CartSideBar';
 import MobileHeader from '@/components/Mobile/MobileHeader';
+import { CurrencyProvider } from '@/context/CurrencyContext';
 
 export default function ClientLayout({
   children,
@@ -10,19 +11,21 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CartProvider>
-      <div className="relative">
-        {/* Mobile nav elements - only include MobileHeader here */}
-        <div className="md:hidden">
-          <MobileHeader />
+    <CurrencyProvider>
+      <CartProvider>
+        <div className="relative">
+          {/* Mobile nav elements - only include MobileHeader here */}
+          <div className="md:hidden">
+            <MobileHeader />
+          </div>
+
+          {/* Main Content */}
+          {children}
+
+          {/* Global Overlays */}
+          <CartSideBar />
         </div>
-
-        {/* Main Content */}
-        {children}
-
-        {/* Global Overlays */}
-        <CartSideBar />
-      </div>
-    </CartProvider>
+      </CartProvider>
+    </CurrencyProvider>
   );
 }

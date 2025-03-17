@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface OrderSummaryProps {
     className?: string;
@@ -9,6 +10,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: FC<OrderSummaryProps> = ({ className = '' }) => {
     const { getCartTotal } = useCart();
+    const { getNativeSymbol, getCurrencyCode, isLoading } = useCurrency();
     const subtotal = getCartTotal();
 
     return (
@@ -19,7 +21,10 @@ const OrderSummary: FC<OrderSummaryProps> = ({ className = '' }) => {
                     Subtotal:
                 </span>
                 <span className="font-urbanist font-medium text-[#83CC6D] ml-2">
-                    ${subtotal.toFixed(2)}
+                    {isLoading 
+                        ? `$${subtotal.toFixed(2)}` 
+                        : `${getNativeSymbol()}${subtotal.toFixed(2)} ${getCurrencyCode()}`
+                    }
                 </span>
             </div>
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import CartProductSummary from './CartProductSummary';
 
 interface CartSideBarProps {
@@ -32,6 +33,7 @@ const CartSideBar: FC<CartSideBarProps> = ({ onClose }) => {
         getCartTotal,
         getCartItemsCount 
     } = useCart();
+    const { getNativeSymbol, getCurrencyCode, isLoading } = useCurrency();
     const isEmpty = cartItems.length === 0;
 
     const handleClose = (): void => {
@@ -105,7 +107,10 @@ const CartSideBar: FC<CartSideBarProps> = ({ onClose }) => {
                                     SUBTOTAL
                                 </span>
                                 <span className="font-urbanist font-semibold text-dark_pink">
-                                    ${getCartTotal().toFixed(2)}
+                                    {isLoading 
+                                        ? `$${getCartTotal().toFixed(2)}` 
+                                        : `${getNativeSymbol()}${getCartTotal().toFixed(2)}`
+                                    }
                                 </span>
                             </div>
                             <div className="space-y-3">

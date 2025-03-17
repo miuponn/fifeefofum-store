@@ -4,6 +4,7 @@ import { FC } from 'react';
 import Image from 'next/image';
 import { FiMinus, FiPlus, FiX } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import type { CartItem } from '@/types/cart';
 
 interface CartProductSummaryProps {
@@ -16,8 +17,17 @@ const CartProductSummary: FC<CartProductSummaryProps> = ({
     containerStyle = '' 
 }) => {
     const { updateQuantity, removeFromCart } = useCart();
-    const subtotal = (parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2);
-
+    const { formatPrice, getNativeSymbol, getCurrencyCode, convertProductPrice, isLoading } = useCurrency();
+    
+    const getNumericPrice = (): number => {
+        if (typeof item.price === 'number') {
+            return item.price;
+        }
+        return parseFloat(String(item.price).replace(/[^\d.-]/g, ''));
+    };
+    
+    const itemPrice = getNumericPrice();
+    
     return (
         <div className={`flex items-center gap-4 py-4 border-b border-[#F9E1E1] last:border-b-0 ${containerStyle}`}>
             {/* Product Thumbnail */}
@@ -43,7 +53,10 @@ const CartProductSummary: FC<CartProductSummaryProps> = ({
                     </span>
                 )}
                 <p className="font-urbanist font-semibold text-dark_pink_secondary text-xs mt-1">
-                    ${subtotal}
+                    {isLoading 
+                        ? `${itemPrice * item.quantity}` 
+                        : `${getNativeSymbol()}${convertProductPrice(itemPrice * item.quantity).toFixed(2)} ${getCurrencyCode()}`
+                    }
                 </p>
             </div>
 

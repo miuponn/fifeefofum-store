@@ -10,13 +10,14 @@ import useImagePreloader from '@/hooks/useImagePreloader';
 import { isVariantInStock } from '@/data/inventory';
 import type { Product } from '@/types/product';
 import productsData from '@/data/products';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface ProductCardProps {
     id: string;
     image: string;
     thumbnail2?: string;
     name: string;
-    price: string;
+    price: number;
     fromPath?: string;
     buttonStyle?: string;
     priceStyle?: string;
@@ -47,12 +48,13 @@ const ProductCard: FC<ProductCardProps> = ({
     const [isStyleSelectOpen, setIsStyleSelectOpen] = useState(false);
     const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
     const styleSelectRef = useRef<HTMLDivElement>(null);
+    const { formatPrice, isLoading, getNativeSymbol, getCurrencyCode, convertProductPrice } = useCurrency();
     
-    // Find product in data to get styles
+    // find product in data to get styles
     const product = productsData.find(p => p.id === id);
     const hasStyles = product?.styles && product.styles.length > 0;
     
-    // Close style selector when clicking outside
+    // close style selector when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (styleSelectRef.current && !styleSelectRef.current.contains(event.target as Node)) {
@@ -171,7 +173,10 @@ const ProductCard: FC<ProductCardProps> = ({
                     onClick={handleProductClick}
                     className={`text-sm sm:text-sm md:text-sm lg:text-sm xl:text-sm font-semibold cursor-pointer transition-all duration-300 ${priceStyle} ${priceHoverStyle}`}
                 >
-                    {price}
+                    {isLoading 
+                        ? `${price}` 
+                        : `${getNativeSymbol()}${convertProductPrice(price).toFixed(2)} ${getCurrencyCode()}`
+                    }                 
                 </p>
             </div>
 

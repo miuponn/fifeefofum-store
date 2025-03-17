@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useCallback, useState, MouseEvent } from 'react';
+import { FC, useEffect, useCallback, MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
@@ -9,25 +9,22 @@ interface GalleryModalProps {
   isOpen: boolean;
   onClose: () => void;
   images: string[];
-  initialImageIndex: number;
+  currentIndex: number;
+  onPrevious: () => void;
+  onNext: () => void;
 }
 
-const GalleryModal: FC<GalleryModalProps> = ({ isOpen, onClose, images, initialImageIndex = 0 }) => {
-  const [currentIndex, setCurrentIndex] = useState(initialImageIndex);
-  
-  const handlePreviousImage = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  }, [images.length]);
+const GalleryModal: FC<GalleryModalProps> = ({ 
+  isOpen, 
+  onClose, 
+  images, 
+  currentIndex,
+  onPrevious,
+  onNext
+}) => {
+  const isFirstImage = currentIndex === 0;
+  const isLastImage = currentIndex === images.length - 1;
 
-  const handleNextImage = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  }, [images.length]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentIndex(initialImageIndex);
-    }
-  }, [isOpen, initialImageIndex]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -35,10 +32,10 @@ const GalleryModal: FC<GalleryModalProps> = ({ isOpen, onClose, images, initialI
 
       switch (event.key) {
         case 'ArrowLeft':
-          handlePreviousImage();
+          if (!isFirstImage) onPrevious();
           break;
         case 'ArrowRight':
-          handleNextImage();
+          if (!isLastImage) onNext();
           break;
         case 'Escape':
           onClose();
@@ -50,7 +47,7 @@ const GalleryModal: FC<GalleryModalProps> = ({ isOpen, onClose, images, initialI
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, handlePreviousImage, handleNextImage, onClose]);
+  }, [isOpen, isFirstImage, isLastImage, onPrevious, onNext, onClose]);
 
   const handleBackgroundClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -62,11 +59,11 @@ const GalleryModal: FC<GalleryModalProps> = ({ isOpen, onClose, images, initialI
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
           onClick={handleBackgroundClick}
         >
           {/* Close button */}
@@ -75,64 +72,59 @@ const GalleryModal: FC<GalleryModalProps> = ({ isOpen, onClose, images, initialI
             className="absolute top-4 right-4 z-50 text-white hover:text-peach transition-colors"
             aria-label="Close gallery"
           >
-            <FiX className="w-8 h-8" />
+            <FiX className="w-6 h-6" />
           </button>
 
-          {/* Image container */}
-          <div className="relative w-full max-w-5xl h-[80vh] max-h-[80vh]">
-            <div className="relative w-full h-full">
-              <Image
-                src={images[currentIndex]}
-                alt={`Product image ${currentIndex + 1}`}
-                fill
-                sizes="(max-width: 768px) 100vw, 90vw"
-                priority
-                className="object-contain"
-              />
-            </div>
+          {/* Main image */}
+          <motion.div
+            className="relative max-h-[90vh] max-w-[90vw] aspect-square"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0.9 }}
+          >
+            <Image
+              src={images[currentIndex]}
+              alt={`Product view ${currentIndex + 1}`}
+              fill
+              sizes="90vw"
+              className="object-contain"
+              quality={100}
+              priority
+            />
+          </motion.div>
 
-            {/* Navigation arrows */}
-            <div className="absolute inset-0 flex items-center justify-between pointer-events-none">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePreviousImage();
-                }}
-                className="p-3 rounded-full bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 transition-all pointer-events-auto"
-                disabled={images.length <= 1}
-                aria-label="Previous image"
-              >
-                <FiChevronLeft className="w-8 h-8 text-white" />
-              </button>
-              
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNextImage();
-                }}
-                className="p-3 rounded-full bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 transition-all pointer-events-auto"
-                disabled={images.length <= 1}
-                aria-label="Next image"
-              >
-                <FiChevronRight className="w-8 h-8 text-white" />
-              </button>
-            </div>
+          {/* Navigation arrows */}
+          {!isFirstImage && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onPrevious();
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 
+                       transition-transform duration-300 hover:scale-110"
+              aria-label="Previous image"
+            >
+              <FiChevronLeft className="w-8 h-8 text-white" />
+            </button>
+          )}
+          
+          {!isLastImage && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onNext();
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 
+                       transition-transform duration-300 hover:scale-110"
+              aria-label="Next image"
+            >
+              <FiChevronRight className="w-8 h-8 text-white" />
+            </button>
+          )}
 
-            {/* Pagination indicator */}
-            <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentIndex(index);
-                  }}
-                  className={`w-2 h-2 rounded-full ${
-                    currentIndex === index ? 'bg-white' : 'bg-white bg-opacity-40'
-                  } transition-all`}
-                />
-              ))}
-            </div>
+          {/* Image counter */}
+          <div className="absolute bottom-6 left-0 right-0 text-center text-white font-poppins text-sm">
+            {currentIndex + 1} / {images.length}
           </div>
         </motion.div>
       )}

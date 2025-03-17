@@ -30,11 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={urbanist.variable}>
       <body>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ClientLayout>
-            {children}
-          </ClientLayout>
-        </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <ClientLayout>
+              {children}
+            </ClientLayout>
+          </Suspense>
       </body>
     </html>
   );

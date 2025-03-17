@@ -4,13 +4,14 @@ import { FC, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import type { Product } from '@/types/product';
 import { isVariantInStock, getVariantQuantity } from '@/data/inventory';
 
 interface ProductSelectionProps {
     id: string;
     name: string;
-    price: string;
+    price: number;
     variants: string[];
     fromPath: string;
     image: string;
@@ -32,6 +33,7 @@ const ProductSelection: FC<ProductSelectionProps> = ({
     const [selectedVariant, setSelectedVariant] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(1);
     const { addToCart, setIsCartOpen } = useCart();
+    const { formatPrice, isLoading, getNativeSymbol, getCurrencyCode, convertProductPrice } = useCurrency();
 
     const fromProducts = fromPath === '/products';
 
@@ -79,7 +81,10 @@ const ProductSelection: FC<ProductSelectionProps> = ({
                     {name}
                 </h1>
                 <p className="text-lg md:text-xl font-urbanist font-semibold text-pink">
-                    {price}
+                    {isLoading 
+                        ? `${price}` 
+                        : `${getNativeSymbol()}${convertProductPrice(price).toFixed(2)} ${getCurrencyCode()}`
+                    }   
                 </p>
             </div>
             

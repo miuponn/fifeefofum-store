@@ -4,6 +4,7 @@ import { FC } from 'react';
 import Image from 'next/image';
 import { FiMinus, FiPlus, FiX } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import type { CartItem, Styles } from '@/types/cart';
 
 interface CartListItemProps {
@@ -14,10 +15,11 @@ interface CartListItemProps {
 
 const CartListItem: FC<CartListItemProps> = ({ item, onUpdateQuantity, styles }) => {
     const { removeFromCart } = useCart();
+    const { getNativeSymbol, convertProductPrice, getCurrencyCode, isLoading } = useCurrency();
 
     const calculateSubtotal = (): string => {
-        const price = parseFloat(item.price.replace('$', ''));
-        return (price * item.quantity).toFixed(2);
+        const convertedPrice = convertProductPrice(item.price);
+        return (convertedPrice * item.quantity).toFixed(2);
     };
 
     return (
@@ -41,7 +43,10 @@ const CartListItem: FC<CartListItemProps> = ({ item, onUpdateQuantity, styles })
 
             {/* Price */}
             <span className={`${styles.priceStyle} text-center text-sm`}>
-                {item.price}
+                {isLoading
+                    ? `${item.price}`
+                    : `${getNativeSymbol()}${convertProductPrice(item.price).toFixed(2)}`
+                }
             </span>
 
             {/* Quantity Selector */}
@@ -68,7 +73,7 @@ const CartListItem: FC<CartListItemProps> = ({ item, onUpdateQuantity, styles })
 
             {/* Subtotal */}
             <span className={`${styles.subtotalStyle} text-right text-sm`}>
-                ${calculateSubtotal()}
+                {getNativeSymbol()}{calculateSubtotal()}
             </span>
 
             {/* Remove Button */}

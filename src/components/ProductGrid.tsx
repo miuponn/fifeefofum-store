@@ -70,15 +70,9 @@ const ProductGrid: FC<ProductGridProps> = ({
             case 'Alphabetical':
                 return filtered.sort((a, b) => a.name.localeCompare(b.name));
             case 'PriceLowHigh':
-                return filtered.sort((a, b) => 
-                    parseFloat(a.price.replace(/[^0-9.]/g, '')) - 
-                    parseFloat(b.price.replace(/[^0-9.]/g, ''))
-                );
+                return filtered.sort((a, b) => a.price - b.price);
             case 'PriceHighLow':
-                return filtered.sort((a, b) => 
-                    parseFloat(b.price.replace(/[^0-9.]/g, '')) - 
-                    parseFloat(a.price.replace(/[^0-9.]/g, ''))
-                );
+                return filtered.sort((a, b) => b.price - a.price);
             default:
                 return filtered; // bstselling (default order)
         }

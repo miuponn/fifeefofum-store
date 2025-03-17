@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState, ChangeEvent } from 'react';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface OrderMessageProps {
     className?: string;
@@ -15,6 +16,7 @@ const OrderMessage: FC<OrderMessageProps> = ({
 }) => {
     const [isGiftWrap, setIsGiftWrap] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
+    const { getNativeSymbol, convertProductPrice, isLoading } = useCurrency();
 
     const handleGiftWrapToggle = (): void => {
         const newValue = !isGiftWrap;
@@ -64,7 +66,7 @@ const OrderMessage: FC<OrderMessageProps> = ({
                         )}
                     </div>
                     <span className="font-poppins font-regular text-dark_pink_secondary text-xs">
-                        For $10.00, wrap this order (add gift message below)
+                        For {isLoading ? "$10.00" : `${getNativeSymbol()}${convertProductPrice(10).toFixed(2)}`}, wrap this order (add gift message below)
                     </span>
                 </div>
             </div>

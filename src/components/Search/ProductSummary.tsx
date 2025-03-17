@@ -4,16 +4,18 @@ import { FC } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface ProductSummaryProps {
     id: string;
     image: string;
     name: string;
-    price: string;
+    price: number;
 }
 
 const ProductSummary: FC<ProductSummaryProps> = ({ id, image, name, price }) => {
     const router = useRouter();
+    const { formatPrice, isLoading, getNativeSymbol, getCurrencyCode, convertProductPrice } = useCurrency();
     
     const handleClick = () => {
         router.push(`/products/${id}?from=search`);
@@ -40,7 +42,12 @@ const ProductSummary: FC<ProductSummaryProps> = ({ id, image, name, price }) => 
             {/* Product Info */}
             <div className="flex-grow flex justify-between items-center">
                 <h4 className="font-urbanist font-bold text-pink text-sm line-clamp-1">{name}</h4>
-                <p className="font-urbanist font-semibold text-peach text-xs whitespace-nowrap">{price}</p>
+                <div className="product-price">
+                    {isLoading ? 
+                        <span className="font-urbanist font-bold text-pink text-sm line-clamp-1">{price}</span> :
+                        <span className="font-urbanist font-bold text-pink text-sm line-clamp-1">{`${getNativeSymbol()}${convertProductPrice(price).toFixed(2)}`}</span>
+                    }
+                </div>
             </div>
         </motion.div>
     );

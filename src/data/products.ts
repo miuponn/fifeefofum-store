@@ -4,7 +4,7 @@ const products: Product[] = [
     {
         id: 'sea-creature-charm',
         name: "Sea Creature Phone Charm",
-        price: "$10.00 CAD",
+        price: 10.00,
         category: "Phone Charms",
         thumbnail: "/images/sea-creature-charm-tn.png",
         thumbnail2: "/images/sea-creature-charm-tn1.png",
@@ -31,7 +31,7 @@ const products: Product[] = [
     {
         id: 'lovebirds-fruits-keychain',
         name: "Lovebird Fruits Keychain",
-        price: "$12.00 CAD",
+        price: 12.00,
         category: "Keychains",
         thumbnail: "/images/lovebirds-fruits-keychain-tn.png",
         thumbnail2: "/images/lovebirds-fruits-keychain-tn1.png",
@@ -61,7 +61,7 @@ const products: Product[] = [
     {
         id: 'pokemon-charm',
         name: "Pokémon Phone Charm",
-        price: "$14.00 CAD",
+        price: 14.00,
         category: "Phone Charms",
         thumbnail: "/images/pokemon-charm-tn.png",
         thumbnail2: "/images/pokemon-charm-tn1.png",
@@ -81,7 +81,7 @@ const products: Product[] = [
     {
         id: 'kawaii-kitty-charm',
         name: "Kawaii Kitty Phone Charm",
-        price: "$13.00 CAD",
+        price: 13.00,
         category: "Phone Charms",
         thumbnail: "/images/kawaii-kitty-charm-tn.png",
         thumbnail2: "/images/kawaii-kitty-charm-tn1.png",
@@ -103,7 +103,7 @@ const products: Product[] = [
     {
         id: 'kawaii-bunny-charm',
         name: "Kawaii Bunny Phone Charm",
-        price: "$15.00 CAD",
+        price: 15.00,
         category: "Phone Charms",
         thumbnail: "/images/kawaii-bunny-charm-tn.png",
         thumbnail2: "/images/kawaii-bunny-charm-tn1.png",
@@ -122,7 +122,7 @@ const products: Product[] = [
     {
         id: 'elemental-stone-necklace',
         name: "Elemental Stone Necklace",
-        price: "$24.00 CAD",
+        price: 24.00,
         category: "Jewelry",
         thumbnail: "/images/elemental-stone-necklace-tn.png",
         thumbnail2: "/images/elemental-stone-necklace-tn1.png",
@@ -158,7 +158,7 @@ const products: Product[] = [
     {
         id: 'hello-kitty-charm',
         name: "Hello Kitty Phone Charm",
-        price: "$12.00 CAD",
+        price: 12.00,
         category: "Phone Charms",
         thumbnail: "/images/hello-kitty-charm-tn.png",
         thumbnail2: "/images/hello-kitty-charm-tn1.png",
@@ -177,7 +177,7 @@ const products: Product[] = [
     {
         id: 'playful-pets-sticker',
         name: "Playful Pets Sticker",
-        price: "$1.50 CAD",
+        price: 1.50,
         category: "Stickers",
         thumbnail: "/images/playful-pets-sticker-tn.png",
         thumbnail2: "/images/playful-pets-sticker-tn1.png",
@@ -199,7 +199,7 @@ const products: Product[] = [
     {
         id: 'kirby-charm',
         name: "Kirby Phone Charm",
-        price: "$13.00 CAD",
+        price: 13.00,
         category: "Phone Charms",
         thumbnail: "/images/kirby-charm-tn.png",
         thumbnail2: "/images/kirby-charm-tn1.png",
@@ -221,7 +221,7 @@ const products: Product[] = [
     {
         id: 'sanrio-charm',
         name: "Sanrio Phone Charm",
-        price: "$14.00 CAD",
+        price: 14.00,
         category: "Phone Charms",
         thumbnail: "/images/sanrio-charm-tn.png",
         thumbnail2: "/images/sanrio-charm-tn1.png",
@@ -243,7 +243,7 @@ const products: Product[] = [
     {
         id: "glass-wrap-ring",
         name: "Glass Wrap Ring",
-        price: "$12.00 CAD",
+        price: 12.00,
         category: "Jewelry",
         thumbnail: "/images/glass-wrap-ring-tn.png",
         thumbnail2: "/images/glass-wrap-ring-tn1.png",
@@ -274,7 +274,7 @@ const products: Product[] = [
     {
         id: "kawaii-sea-creature-sticker",
         name: "Kawaii Sea Creature Sticker",
-        price: "$3.00 CAD",
+        price: 3.00,
         category: "Stickers",
         thumbnail: "/images/kawaii-sea-creature-sticker-tn.png",
         thumbnail2: "/images/kawaii-sea-creature-sticker-tn1.png",
@@ -295,7 +295,7 @@ const products: Product[] = [
     {
         id: "lovebirds-fruits-stickers",
         name: "Lovebirds Fruits Sticker Sheet",
-        price: "$6.00 CAD",
+        price: 6.00,
         category: "Stickers",
         thumbnail: "/images/lovebirds-fruits-stickers-tn.png",
         thumbnail2: "/images/lovebirds-fruits-stickers-tn1.png",
@@ -316,7 +316,7 @@ const products: Product[] = [
     {
         id: "tropical-toucan-charm",
         name: "Tropical Toucan Phone Charm",
-        price: "$12.00 CAD",
+        price: 12.00,
         category: "Phone Charms",
         thumbnail: "/images/tropical-toucan-charm-tn.png",
         thumbnail2: "/images/tropical-toucan-charm-tn1.png",
@@ -336,7 +336,7 @@ const products: Product[] = [
     {
         id: "elemental-stone-bracelet",
         name: "Elemental Stone Bracelet",
-        price: "$12.00 CAD",
+        price: 12.00,
         category: "Jewelry",
         thumbnail: "/images/elemental-stone-bracelet-tn.png",
         thumbnail2: "/images/elemental-stone-bracelet-tn1.png",
@@ -365,7 +365,7 @@ const products: Product[] = [
     {
         id: "elemental-stone-ring",
         name: "Elemental Stone Ring",
-        price: "$10.00 CAD",
+        price: 10.00,
         category: "Jewelry",
         thumbnail: "/images/elemental-stone-ring-tn.png",
         thumbnail2: "/images/elemental-stone-ring-tn1.png",
@@ -404,7 +404,7 @@ const products: Product[] = [
     {
         id: "sanrio-teddy-bear-charm",
         name: "Sanrio Teddy Bear Phone Charm",
-        price: "$14.00 CAD",
+        price: 14.00,
         category: "Phone Charms",
         thumbnail: "/images/sanrio-teddy-bear-charm-tn.png",
         thumbnail2: "/images/sanrio-teddy-bear-charm-tn1.png",
@@ -423,7 +423,7 @@ const products: Product[] = [
     {
         id: "sanrio-mini-charm",
         name: "Sanrio Mini Phone Charm",
-        price: "$9.00 CAD",
+        price: 9.00,
         category: "Phone Charms",
         thumbnail: "/images/sanrio-mini-charm-tn.png",
         thumbnail2: "/images/sanrio-mini-charm-tn1.png",
@@ -445,7 +445,7 @@ const products: Product[] = [
     {
         id: "hatsune-miku-keychain",
         name: "Hatsune Miku Double-Sided Keychain",
-        price: "$12.00 CAD",
+        price: 12.00,
         category: "Keychains",
         thumbnail: "/images/hatsune-miku-keychain-tn.png",
         thumbnail2: "/images/hatsune-miku-keychain-tn1.png",
@@ -474,7 +474,7 @@ const products: Product[] = [
     {
         id: "silly-kitty-charm",
         name: "Silly Kitty Phone Charm",
-        price: "$8.50 CAD",
+        price: 8.50,
         category: "Phone Charms",
         thumbnail: "/images/silly-kitty-charm-tn.png",
         thumbnail2: "/images/silly-kitty-charm-tn1.png",
@@ -493,7 +493,7 @@ const products: Product[] = [
     {
         id: "genshin-impact-sticker",
         name: "Genshin Impact Chibi Sticker",
-        price: "$2.00 CAD",
+        price: 2.00,
         category: "Stickers",
         thumbnail: "/images/genshin-impact-sticker-tn.png",
         thumbnail2: "/images/genshin-impact-sticker-tn.png",

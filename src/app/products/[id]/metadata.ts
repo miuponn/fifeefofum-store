@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
     },
     other: {
-      'og:product:price:amount': product.price.replace(/[^0-9.]/g, ''),
+      'og:product:price:amount': product.price,
       'og:product:price:currency': 'CAD',
       'og:availability': product.styles && product.styles.length > 0
         ? 'instock' 

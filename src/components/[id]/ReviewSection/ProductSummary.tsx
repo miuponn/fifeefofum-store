@@ -3,11 +3,12 @@
 import { FC } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface ProductSummaryProps {
     image: string;
     name: string;
-    price: string;
+    price: number;
     containerStyle?: string;
     nameStyle?: string;
     priceStyle?: string;
@@ -26,6 +27,8 @@ const ProductSummary: FC<ProductSummaryProps> = ({
     priceStyle = "",
     hoverStyle = {} 
 }) => {
+    const { isLoading, getNativeSymbol, getCurrencyCode, convertProductPrice } = useCurrency();
+
     return (
         <motion.div 
             className={`flex items-center gap-4 p-2 transition-all duration-300 ${containerStyle}`}
@@ -46,7 +49,12 @@ const ProductSummary: FC<ProductSummaryProps> = ({
             {/* Product Info */}
             <div className="flex flex-col">
                 <h4 className={nameStyle}>{name}</h4>
-                <p className={priceStyle}>{price}</p>
+                <p className={priceStyle}>
+                    {isLoading 
+                        ? `${price}` 
+                        : `${getNativeSymbol()}${convertProductPrice(price).toFixed(2)}`
+                    }
+                </p>
             </div>
         </motion.div>
     );

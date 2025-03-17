@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { Product } from '@/types/product';
+import { useCurrency } from './CurrencyContext';
 
 interface CartItem extends Product {
     quantity: number;
@@ -30,6 +31,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         return [];
     });
     const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+
+    const { convertProductPrice } = useCurrency();
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -66,8 +69,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     const getCartTotal = (): number => {
         return cartItems.reduce((total, item) => {
-            const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
-            return total + price * item.quantity;
+            const price = typeof item.price === 'number' ? item.price : 0;
+            
+            const convertedPrice = convertProductPrice(price);
+            return total + convertedPrice * item.quantity;
         }, 0);
     };
 

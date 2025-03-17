@@ -124,7 +124,7 @@ const ProductDetailsPage: FC = () => {
                             "offers": {
                                 "@type": "Offer",
                                 "url": `https://fifeefofum.com/products/${product.id}`,
-                                "price": product.price.replace(/[^0-9.]/g, ''),
+                                "price": String(product.price),
                                 "priceCurrency": "CAD",
                                 "availability": "https://schema.org/InStock",
                                 "itemCondition": "https://schema.org/NewCondition"
