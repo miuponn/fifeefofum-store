@@ -42,14 +42,6 @@ src/scripts/test-api.ts
 /test
 /tests/local
 
-# Tailwind CSS
-tailwind.config.js
-tailwind.config.ts
-
-# PostCSS
-postcss.config.js
-postcss.config.ts
-
 # Miscellaneous
 *.swp
 *.swo
